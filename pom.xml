@@ -36,13 +36,13 @@ limitations under the License.
     <module>compare-asts</module>
     <module>fuzzerserver</module>
     <module>generator</module>
-    <module>gles-worker-dependencies</module>
+    <!--<module>gles-worker-dependencies</module> -->
     <module>graphicsfuzz</module>
     <module>parent-all</module>
     <module>parent-checkstyle</module>
     <module>python</module>
     <module>reducer</module>
-    <module>server-public</module>
+    <!--<module>server-public</module> -->
     <module>server-static-public</module>
     <module>server-thrift-gen</module>
     <module>server</module>

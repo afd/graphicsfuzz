@@ -30,8 +30,7 @@ limitations under the License.
   </parent>
 
   <properties>
-    <maven.compiler.source>1.6</maven.compiler.source>
-    <maven.compiler.target>1.6</maven.compiler.target>
+    <maven.compiler.release>17</maven.compiler.release>
   </properties>
 
   <dependencies>
