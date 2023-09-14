@@ -17,11 +17,11 @@
 package com.graphicsfuzz.reducer.filejudge;
 
 import com.graphicsfuzz.common.util.ShaderJobFileOperations;
+import com.graphicsfuzz.imagetools.ImageJob;
+import com.graphicsfuzz.imagetools.ImageJobResult;
+import com.graphicsfuzz.imagetools.JobStatus;
 import com.graphicsfuzz.reducer.FileJudgeException;
 import com.graphicsfuzz.reducer.IFileJudge;
-import com.graphicsfuzz.server.thrift.ImageJob;
-import com.graphicsfuzz.server.thrift.ImageJobResult;
-import com.graphicsfuzz.server.thrift.JobStatus;
 import com.graphicsfuzz.shadersets.IImageFileComparator;
 import com.graphicsfuzz.shadersets.IShaderDispatcher;
 import com.graphicsfuzz.shadersets.ShaderDispatchException;

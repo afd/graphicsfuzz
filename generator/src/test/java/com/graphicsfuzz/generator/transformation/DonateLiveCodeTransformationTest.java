@@ -62,7 +62,7 @@ import com.graphicsfuzz.generator.transformation.injection.IInjectionPoint;
 import com.graphicsfuzz.generator.transformation.injection.InjectionPoints;
 import com.graphicsfuzz.generator.util.GenerationParams;
 import com.graphicsfuzz.generator.util.TransformationProbabilities;
-import com.graphicsfuzz.server.thrift.ImageJob;
+import com.graphicsfuzz.imagetools.ImageJob;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;

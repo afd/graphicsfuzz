@@ -449,7 +449,7 @@ public class ReducerUnitTest {
         "0",
         "--output",
         output.getAbsolutePath()
-    }, null);
+    });
 
     while (new File(output, Constants.REDUCTION_INCOMPLETE).exists()) {
       numSteps += 5;
@@ -467,7 +467,7 @@ public class ReducerUnitTest {
           "--output",
           output.getAbsolutePath(),
           "--continue-previous-reduction"
-      }, null);
+      });
     }
 
     final File[] finalResults = output.listFiles((dir, file)
@@ -495,7 +495,7 @@ public class ReducerUnitTest {
     GlslReduce.mainHelper(new String[] { "--swiftshader", "--continue-previous-reduction",
         json.getAbsolutePath(), "--output",
         output.getAbsolutePath(),
-        "--reduction-kind", "NO_IMAGE" }, null);
+        "--reduction-kind", "NO_IMAGE" });
   }
 
   @Test
@@ -529,7 +529,7 @@ public class ReducerUnitTest {
         "--seed",
         "0",
         "--output",
-        output.getAbsolutePath() }, null);
+        output.getAbsolutePath() });
   }
 
 }

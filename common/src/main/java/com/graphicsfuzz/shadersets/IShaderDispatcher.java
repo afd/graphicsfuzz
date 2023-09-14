@@ -16,8 +16,8 @@
 
 package com.graphicsfuzz.shadersets;
 
-import com.graphicsfuzz.server.thrift.ImageJob;
-import com.graphicsfuzz.server.thrift.ImageJobResult;
+import com.graphicsfuzz.imagetools.ImageJob;
+import com.graphicsfuzz.imagetools.ImageJobResult;
 
 public interface IShaderDispatcher {
 

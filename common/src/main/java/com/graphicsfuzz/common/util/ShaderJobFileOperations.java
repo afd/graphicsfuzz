@@ -28,13 +28,12 @@ import com.graphicsfuzz.common.tool.UniformValueSupplier;
 import com.graphicsfuzz.common.transformreduce.GlslShaderJob;
 import com.graphicsfuzz.common.transformreduce.ShaderJob;
 import com.graphicsfuzz.gifsequencewriter.GifSequenceWriter;
-import com.graphicsfuzz.server.thrift.FuzzerServiceConstants;
-import com.graphicsfuzz.server.thrift.ImageComparisonMetric;
-import com.graphicsfuzz.server.thrift.ImageJob;
-import com.graphicsfuzz.server.thrift.ImageJobResult;
-import com.graphicsfuzz.server.thrift.JobStatus;
-import com.graphicsfuzz.server.thrift.ResultConstant;
-import com.graphicsfuzz.shadersets.ShaderDispatchException;
+import com.graphicsfuzz.imagetools.FuzzerServiceConstants;
+import com.graphicsfuzz.imagetools.ImageComparisonMetric;
+import com.graphicsfuzz.imagetools.ImageJob;
+import com.graphicsfuzz.imagetools.ImageJobResult;
+import com.graphicsfuzz.imagetools.JobStatus;
+import com.graphicsfuzz.imagetools.ResultConstant;
 import com.graphicsfuzz.util.ExecHelper;
 import com.graphicsfuzz.util.ExecResult;
 import com.graphicsfuzz.util.ToolHelper;
@@ -549,121 +548,6 @@ public class ShaderJobFileOperations {
     if (primitivesFile.isFile()) {
       setPrimitives(imageJob, primitivesFile);
     }
-  }
-
-  /**
-   * Run get image LOCALLY; mainly for testing.
-   */
-  public ImageJobResult runGetImageOnImageJob(
-      ImageJob imageJob,
-      File shaderJobFileTemp,
-      boolean useSwiftShader
-  ) throws IOException, ShaderDispatchException, InterruptedException {
-
-    // It is unclear where best to abstract this.
-    // Running get image on an ImageJob should be all that is needed,
-    // but running on a shaderJobFile makes sense for testing and we need to do this
-    // underneath anyway, so we expose both ways.
-
-    // We don't normally create output directories at this low-level, but in this case, the temp
-    // directory will only be created when running shaders locally, which is rare for the server,
-    // so we don't want to require them to exist.
-
-    // Ensure temp output directory exists:
-
-    File tempDir = getParent(shaderJobFileTemp);
-    if (tempDir.toString().length() > 0) {
-      mkdir(tempDir);
-    }
-
-    // Write shader job file:
-    writeShaderJobFileFromImageJob(imageJob, shaderJobFileTemp);
-
-    if (!imageJob.isSetSkipRender()) {
-      throw new RuntimeException("Internal error: skipRender was null, but it should be set.");
-    }
-
-    // Run shader job file:
-    return runGetImageOnShaderJobFile(
-        shaderJobFileTemp,
-        useSwiftShader,
-        imageJob.isSkipRender());
-  }
-
-  /**
-   * Run get image LOCALLY; mainly for testing.
-   */
-  public ImageJobResult runGetImageOnShaderJobFile(
-      File shaderJobFile,
-      boolean usingSwiftshader,
-      boolean skipRender
-  ) throws InterruptedException, IOException, ShaderDispatchException {
-
-    String shaderJobFileNoExtension = FilenameUtils.removeExtension(shaderJobFile.toString());
-
-    if (isFile(new File(shaderJobFileNoExtension + ".vert"))
-        || isFile(new File(shaderJobFileNoExtension + ".comp"))) {
-
-      throw new
-          UnsupportedOperationException(
-              "Running vertex and compute shaders locally is not supported yet.");
-    }
-
-    File fragShader = new File(shaderJobFileNoExtension + ".frag");
-    File imageFile = new File(shaderJobFileNoExtension + ".png");
-
-    // Delete the image file just in case it already exists.
-    try {
-      deleteFile(imageFile);
-    } catch (NoSuchFileException exception) {
-      // ignore
-    }
-
-    ExecResult res = usingSwiftshader
-        ? ToolHelper.runSwiftshaderOnShader(
-            ExecHelper.RedirectType.TO_BUFFER,
-            fragShader,
-            imageFile,
-            skipRender)
-        : ToolHelper.runGenerateImageOnShader(
-            ExecHelper.RedirectType.TO_BUFFER,
-            fragShader,
-            imageFile,
-            skipRender)
-        ;
-
-    ImageJobResult imageJobResult = new ImageJobResult();
-
-    res.stdout.append(res.stderr);
-
-    if (res.res == 0) {
-      imageJobResult
-          .setStatus(JobStatus.SUCCESS)
-          .setLog("\n" + res.stdout.toString());
-    } else {
-      ResultConstant resultConstant = ResultConstant.ERROR;
-      JobStatus status = JobStatus.UNEXPECTED_ERROR;
-
-      if (res.res == FuzzerServiceConstants.COMPILE_ERROR_EXIT_CODE) {
-        resultConstant = ResultConstant.COMPILE_ERROR;
-        status = JobStatus.COMPILE_ERROR;
-      } else if (res.res == FuzzerServiceConstants.LINK_ERROR_EXIT_CODE) {
-        resultConstant = ResultConstant.LINK_ERROR;
-        status = JobStatus.LINK_ERROR;
-      }
-      imageJobResult
-          .setStatus(status)
-          .setLog(resultConstant + "\n" + res.stdout.toString());
-    }
-
-    if (isFile(imageFile)) {
-      byte[] png = readFileToByteArray(imageFile);
-      imageJobResult.setPNG(png);
-    }
-
-    imageJobResult.setPassSanityCheck(true);
-    return imageJobResult;
-
   }
 
   public void tryDeleteFile(File file) {
