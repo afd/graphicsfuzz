@@ -28,12 +28,9 @@ import com.graphicsfuzz.common.tool.UniformValueSupplier;
 import com.graphicsfuzz.common.transformreduce.GlslShaderJob;
 import com.graphicsfuzz.common.transformreduce.ShaderJob;
 import com.graphicsfuzz.gifsequencewriter.GifSequenceWriter;
-import com.graphicsfuzz.imagetools.FuzzerServiceConstants;
 import com.graphicsfuzz.imagetools.ImageComparisonMetric;
 import com.graphicsfuzz.imagetools.ImageJob;
 import com.graphicsfuzz.imagetools.ImageJobResult;
-import com.graphicsfuzz.imagetools.JobStatus;
-import com.graphicsfuzz.imagetools.ResultConstant;
 import com.graphicsfuzz.util.ExecHelper;
 import com.graphicsfuzz.util.ExecResult;
 import com.graphicsfuzz.util.ToolHelper;
@@ -50,7 +47,6 @@ import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
@@ -724,7 +720,7 @@ public class ShaderJobFileOperations {
       timingInfoJson.addProperty("captureTime", res.timingInfo.captureTime);
       infoJson.add("timingInfo", timingInfoJson);
     }
-    if (res.isSetPNG() && referenceImage.isPresent()) {
+    if (res.isSetPng() && referenceImage.isPresent()) {
       // Add image data, e.g. histogram distance
       final JsonObject metrics = new JsonObject();
       referenceImage.get().getImageDiffStats(new ImageData(outputImage.getAbsolutePath()), metrics);
@@ -1143,29 +1139,29 @@ public class ShaderJobFileOperations {
 
     final File outputImage = new File(shaderJobResultNoExtension + ".png");
 
-    if (shaderResult.isSetPNG()) {
-      fileOps.writeByteArrayToFile(outputImage, shaderResult.getPNG());
+    if (shaderResult.isSetPng()) {
+      fileOps.writeByteArrayToFile(outputImage, shaderResult.getPng());
     }
 
     // TODO: Not mockable yet; directly accesses files.
 
     // Create gif when there is two image files set. This may happen not only for NONDET state,
     // but also in case of Sanity error after a nondet.
-    if (shaderResult.isSetPNG() && shaderResult.isSetPNG2()) {
+    if (shaderResult.isSetPng() && shaderResult.isSetPng2()) {
       // we can dump both images
       File outputNondet1 = new File(shaderJobResultNoExtension + "_nondet1.png");
       File outputNondet2 = new File(shaderJobResultNoExtension +  "_nondet2.png");
-      fileOps.writeByteArrayToFile(outputNondet1, shaderResult.getPNG());
-      fileOps.writeByteArrayToFile(outputNondet2, shaderResult.getPNG2());
+      fileOps.writeByteArrayToFile(outputNondet1, shaderResult.getPng());
+      fileOps.writeByteArrayToFile(outputNondet2, shaderResult.getPng2());
 
       // Create gif
       try {
         BufferedImage nondetImg = ImageIO.read(
             Thread.currentThread().getContextClassLoader().getResourceAsStream("nondet.png"));
         BufferedImage img1 = ImageIO.read(
-            new ByteArrayInputStream(shaderResult.getPNG()));
+            new ByteArrayInputStream(shaderResult.getPng()));
         BufferedImage img2 = ImageIO.read(
-            new ByteArrayInputStream(shaderResult.getPNG2()));
+            new ByteArrayInputStream(shaderResult.getPng2()));
         File gifFile = new File(shaderJobResultNoExtension + ".gif");
         ImageOutputStream gifOutput = new FileImageOutputStream(gifFile);
         GifSequenceWriter gifWriter =

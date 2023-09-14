@@ -16,11 +16,11 @@ public class ImageJobResult {
     throw new UnsupportedOperationException();
   }
 
-  public byte[] getPNG() {
+  public byte[] getPng() {
     throw new UnsupportedOperationException();
   }
 
-  public byte[] getPNG2() {
+  public byte[] getPng2() {
     throw new UnsupportedOperationException();
   }
 
@@ -36,11 +36,11 @@ public class ImageJobResult {
     throw new UnsupportedOperationException();
   }
 
-  public boolean isSetPNG() {
+  public boolean isSetPng() {
     throw new UnsupportedOperationException();
   }
 
-  public boolean isSetPNG2() {
+  public boolean isSetPng2() {
     throw new UnsupportedOperationException();
   }
 
@@ -60,7 +60,7 @@ public class ImageJobResult {
     throw new UnsupportedOperationException();
   }
 
-  public void setPNG(byte[] png) {
+  public void setPng(byte[] png) {
     throw new UnsupportedOperationException();
   }
 
