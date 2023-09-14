@@ -62,7 +62,6 @@ import com.graphicsfuzz.generator.transformation.injection.IInjectionPoint;
 import com.graphicsfuzz.generator.transformation.injection.InjectionPoints;
 import com.graphicsfuzz.generator.util.GenerationParams;
 import com.graphicsfuzz.generator.util.TransformationProbabilities;
-import com.graphicsfuzz.imagetools.ImageJob;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -497,29 +496,19 @@ public class DonateLiveCodeTransformationTest {
               + "    bar(1);\n"
               + "}\n";
 
-      fileOps.writeShaderJobFileFromImageJob(
-          new ImageJob()
-              .setFragmentSource(donorSource)
-              .setUniformsInfo("{}"),
+      final ShaderJob donorShaderJob = new GlslShaderJob(Optional.empty(),
+          new PipelineInfo("{}"), ParseHelper.parse(donorSource));
+      fileOps.writeShaderJobFile(
+          donorShaderJob,
           new File(donors, "donor.json")
       );
     }
 
-    {
-      final String referenceSource = "#version 300 es\n"
-          + "void main() {\n"
-          + "}\n";
-
-      fileOps.writeShaderJobFileFromImageJob(
-          new ImageJob()
-              .setFragmentSource(referenceSource)
-              .setUniformsInfo("{}"),
-          referenceFile
-
-      );
-    }
-
-    final ShaderJob referenceShaderJob = fileOps.readShaderJobFile(referenceFile);
+    final String referenceSource = "#version 300 es\n"
+        + "void main() {\n"
+        + "}\n";
+    final ShaderJob referenceShaderJob = new GlslShaderJob(Optional.empty(),
+        new PipelineInfo("{}"), ParseHelper.parse(referenceSource));
 
     DonateLiveCodeTransformation transformation =
         new DonateLiveCodeTransformation(IRandom::nextBoolean, donors,
@@ -563,29 +552,19 @@ public class DonateLiveCodeTransformationTest {
               + "    1;\n"
               + "}\n";
 
-      fileOps.writeShaderJobFileFromImageJob(
-          new ImageJob()
-              .setFragmentSource(donorSource)
-              .setUniformsInfo("{}"),
+      final ShaderJob donorShaderJob = new GlslShaderJob(Optional.empty(),
+          new PipelineInfo("{}"), ParseHelper.parse(donorSource));
+      fileOps.writeShaderJobFile(
+          donorShaderJob,
           new File(donors, "donor.json")
       );
     }
 
-    {
-      final String referenceSource = "#version 300 es\n"
-          + "void main() {\n"
-          + "}\n";
-
-      fileOps.writeShaderJobFileFromImageJob(
-          new ImageJob()
-              .setFragmentSource(referenceSource)
-              .setUniformsInfo("{}"),
-          referenceFile
-
-      );
-    }
-
-    final ShaderJob referenceShaderJob = fileOps.readShaderJobFile(referenceFile);
+    final String referenceSource = "#version 300 es\n"
+        + "void main() {\n"
+        + "}\n";
+    final ShaderJob referenceShaderJob = new GlslShaderJob(Optional.empty(),
+        new PipelineInfo("{}"), ParseHelper.parse(referenceSource));
 
     DonateLiveCodeTransformation transformation =
         new DonateLiveCodeTransformation(IRandom::nextBoolean, donors,
@@ -640,10 +619,10 @@ public class DonateLiveCodeTransformationTest {
               + " }\n"
               + "}\n";
 
-      fileOps.writeShaderJobFileFromImageJob(
-          new ImageJob()
-              .setFragmentSource(donorSource)
-              .setUniformsInfo("{}"),
+      final ShaderJob donorShaderJob = new GlslShaderJob(Optional.empty(),
+          new PipelineInfo("{}"), ParseHelper.parse(donorSource));
+      fileOps.writeShaderJobFile(
+          donorShaderJob,
           new File(donors, "donor.json")
       );
     }
@@ -652,13 +631,11 @@ public class DonateLiveCodeTransformationTest {
       final String referenceSource = "#version 300 es\n"
           + "void main() {\n"
           + "}\n";
-
-      fileOps.writeShaderJobFileFromImageJob(
-          new ImageJob()
-              .setFragmentSource(referenceSource)
-              .setUniformsInfo("{}"),
+      final ShaderJob referenceShaderJob = new GlslShaderJob(Optional.empty(),
+          new PipelineInfo("{}"), ParseHelper.parse(referenceSource));
+      fileOps.writeShaderJobFile(
+          referenceShaderJob,
           referenceFile
-
       );
     }
 
