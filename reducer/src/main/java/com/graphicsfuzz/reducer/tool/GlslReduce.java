@@ -111,10 +111,6 @@ public class GlslReduce {
         .setDefault(30)
         .type(Integer.class);
 
-    parser.addArgument("--reference")
-          .help("Path to reference .info.json result (with image result) for comparison.")
-          .type(File.class);
-
     parser.addArgument("--stop-on-error")
           .help("Quit if something goes wrong during reduction; useful for testing.")
           .action(Arguments.storeTrue());
@@ -182,13 +178,9 @@ public class GlslReduce {
       final boolean addUbGuards = !ns.getBoolean("no_ub_guards");
       final boolean stopOnError = ns.get("stop_on_error");
 
-      final boolean usingSwiftshader = ns.get("swiftshader");
-
       final boolean continuePreviousReduction = ns.get("continue_previous_reduction");
 
       final boolean literalsToUniforms = ns.get("literals_to_uniforms");
-
-      final File referenceResultFile = ns.get("reference");
 
       final List<String> customJudgeScript = ns.get("interestingness_test");
 
@@ -206,9 +198,6 @@ public class GlslReduce {
 
       // Check input files
       fileOps.assertShaderJobRequiredFilesExist(inputShaderJobFile);
-      if (referenceResultFile != null) {
-        fileOps.doesShaderJobResultFileExist(referenceResultFile);
-      }
 
       if (continuePreviousReduction) {
         fileOps.assertExists(new File(workDir, Constants.REDUCTION_INCOMPLETE));
@@ -217,12 +206,6 @@ public class GlslReduce {
       // Copy input files to output dir.
       File copiedShaderJobFile = new File(workDir, inputShaderJobFile.getName());
       fileOps.copyShaderJobFileTo(inputShaderJobFile, copiedShaderJobFile, true);
-
-      File referenceResultFileCopy = null;
-      if (referenceResultFile != null) {
-        referenceResultFileCopy = new File(workDir, "reference_image.info.json");
-        fileOps.copyShaderJobResultFileTo(referenceResultFile, referenceResultFileCopy, true);
-      }
 
       IFileJudge fileJudge;
 

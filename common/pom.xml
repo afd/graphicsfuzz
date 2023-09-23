@@ -93,10 +93,6 @@ limitations under the License.
       <groupId>com.graphicsfuzz</groupId>
       <artifactId>util</artifactId>
     </dependency>
-    <dependency>
-      <groupId>com.graphicsfuzz.thirdparty</groupId>
-      <artifactId>gif-sequence-writer</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>org.bytedeco.javacpp-presets</groupId>

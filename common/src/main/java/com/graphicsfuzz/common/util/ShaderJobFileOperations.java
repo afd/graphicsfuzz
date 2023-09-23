@@ -27,17 +27,12 @@ import com.graphicsfuzz.common.tool.PrettyPrinterVisitor;
 import com.graphicsfuzz.common.tool.UniformValueSupplier;
 import com.graphicsfuzz.common.transformreduce.GlslShaderJob;
 import com.graphicsfuzz.common.transformreduce.ShaderJob;
-import com.graphicsfuzz.gifsequencewriter.GifSequenceWriter;
-import com.graphicsfuzz.imagetools.ImageComparisonMetric;
-import com.graphicsfuzz.imagetools.ImageJob;
-import com.graphicsfuzz.imagetools.ImageJobResult;
 import com.graphicsfuzz.util.ExecHelper;
 import com.graphicsfuzz.util.ExecResult;
 import com.graphicsfuzz.util.ToolHelper;
 import com.graphicsfuzz.util.ToolPaths;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
-import java.io.ByteArrayInputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -55,8 +50,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
 import javax.imageio.ImageIO;
-import javax.imageio.stream.FileImageOutputStream;
-import javax.imageio.stream.ImageOutputStream;
 import net.sourceforge.argparse4j.inf.ArgumentParserException;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.apache.commons.io.FileUtils;
@@ -86,68 +79,6 @@ public class ShaderJobFileOperations {
     LOGGER.info("Identical? {}", identical);
 
     return identical;
-  }
-
-  public boolean areImagesOfShaderResultsInteresting(
-      File referenceShaderResultFile,
-      File variantShaderResultFile,
-      ImageComparisonMetric metric,
-      double threshold,
-      boolean aboveThresholdIsInteresting) throws IOException {
-
-
-    //noinspection deprecation: OK in this class.
-    File reference = getUnderlyingImageFileFromShaderJobResultFile(referenceShaderResultFile);
-    //noinspection deprecation: OK in this class.
-    File variant = getUnderlyingImageFileFromShaderJobResultFile(variantShaderResultFile);
-
-    LOGGER.info("Comparing: {} and {}.", reference, variant);
-
-    boolean result;
-    String comparisonValue;
-
-    switch (metric) {
-
-      case HISTOGRAM_CHISQR: {
-        final double diff = ImageUtil.compareHistograms(
-            ImageUtil.getHistogram(reference.toString()),
-            ImageUtil.getHistogram(variant.toString()));
-        result = (aboveThresholdIsInteresting ? diff > threshold : diff <= threshold);
-        comparisonValue = String.valueOf(diff);
-        break;
-      }
-      case PSNR: {
-        final double diff = ImageUtil.comparePsnr(reference, variant);
-        result = (aboveThresholdIsInteresting ? diff > threshold : diff <= threshold);
-        comparisonValue = String.valueOf(diff);
-        break;
-      }
-      case FUZZY_DIFF: {
-        try {
-          FuzzyImageComparison.MainResult mainResult =
-              FuzzyImageComparison.mainHelper(
-                  new String[] {reference.toString(), variant.toString()});
-          // Fuzzy diff has its own thresholds; images are different if a threshold is exceeded.
-          // We negate this if needed:
-          result = (aboveThresholdIsInteresting == mainResult.areImagesDifferent);
-          comparisonValue = mainResult.outputsString();
-          break;
-        } catch (ArgumentParserException exception) {
-          throw new RuntimeException(exception);
-        }
-      }
-      default:
-        throw new RuntimeException("Unrecognised image comparison metric: " + metric.toString());
-    }
-
-    if (result) {
-      LOGGER.info("Interesting");
-    } else {
-      LOGGER.info("Not interesting");
-    }
-    LOGGER.info(": comparison value is " + comparisonValue);
-    return result;
-
   }
 
   /**
@@ -203,9 +134,6 @@ public class ShaderJobFileOperations {
       throw new FileNotFoundException("Could not find " + file);
     }
   }
-
-  // TODO: We should really have: ShaderJobFile, ShaderJobAST, ShaderJobForWorker.
-  // For now, ShaderJobForWorker is ImageJob.
 
   public void assertShaderJobRequiredFilesExist(File shaderJobFile) throws FileNotFoundException {
     assertIsShaderJobFile(shaderJobFile);
@@ -508,44 +436,6 @@ public class ShaderJobFileOperations {
         translationUnits);
   }
 
-  public void readShaderJobFileToImageJob(File shaderJobFile, ImageJob imageJob)
-      throws IOException {
-    assertIsShaderJobFile(shaderJobFile);
-
-    imageJob.setName(FilenameUtils.removeExtension(shaderJobFile.getName()));
-
-    String shaderFileNoExtension = FilenameUtils.removeExtension(shaderJobFile.toString());
-
-    final File infoFile = new File(shaderFileNoExtension + ".json");
-    //noinspection deprecation: fine inside this class.
-    final File fragmentFile = getUnderlyingShaderFile(shaderJobFile, ShaderKind.FRAGMENT);
-    //noinspection deprecation: fine inside this class.
-    final File vertexFile = getUnderlyingShaderFile(shaderJobFile, ShaderKind.VERTEX);
-    final File primitivesFile = new File(shaderFileNoExtension + ".primitives");
-    final File computeFile = new File(shaderFileNoExtension + ".comp");
-
-    // Special case: compute shader job.
-    if (isFile(computeFile)) {
-      imageJob.setComputeSource(readFileToString(computeFile));
-      imageJob.setComputeInfo(readFileToString(infoFile));
-      return;
-    }
-
-    imageJob.setUniformsInfo(readFileToString(infoFile));
-
-    if (isFile(fragmentFile)) {
-      imageJob.setFragmentSource(readFileToString(fragmentFile));
-    }
-
-    if (isFile(vertexFile)) {
-      imageJob.setVertexSource(readFileToString(vertexFile));
-    }
-
-    if (primitivesFile.isFile()) {
-      setPrimitives(imageJob, primitivesFile);
-    }
-  }
-
   public void tryDeleteFile(File file) {
     FileUtils.deleteQuietly(file);
   }
@@ -604,69 +494,6 @@ public class ShaderJobFileOperations {
         shaderJob.getPipelineInfo().toString());
   }
 
-  public void writeShaderJobFileFromImageJob(
-      final ImageJob imageJob,
-      final File outputShaderJobFile) throws IOException {
-
-    assertIsShaderJobFile(outputShaderJobFile);
-
-    String outputShaderJobFileNoExtension =
-        FilenameUtils.removeExtension(outputShaderJobFile.toString());
-
-    // Special case: compute shader job.
-    if (imageJob.isSetComputeSource()) {
-      writeStringToFile(
-          new File(outputShaderJobFileNoExtension + ".json"),
-          imageJob.getComputeInfo());
-
-      writeStringToFile(
-          new File(outputShaderJobFileNoExtension + ".comp"),
-          imageJob.getComputeSource());
-
-      return;
-    }
-
-    writeStringToFile(
-        new File(outputShaderJobFileNoExtension + ".json"),
-        imageJob.getUniformsInfo());
-
-    if (imageJob.getVertexSource() != null) {
-      writeStringToFile(
-          new File(outputShaderJobFileNoExtension + ".vert"),
-          imageJob.getVertexSource());
-    }
-
-    if (imageJob.getFragmentSource() != null) {
-      writeStringToFile(
-          new File(outputShaderJobFileNoExtension + ".frag"),
-          imageJob.getFragmentSource());
-    }
-
-    if (imageJob.getComputeSource() != null) {
-      writeStringToFile(
-          new File(outputShaderJobFileNoExtension + ".comp"),
-          imageJob.getComputeSource());
-    }
-  }
-
-  /**
-   * @param shaderResult Input imageJobResult.
-   * @param shaderResultFile E.g. "variant_blah.info.json"
-   * @param referenceShaderResultFile If present, will allow the difference metrics to be output
-   *                                  to the .info.json shaderResultFile.
-   */
-  public void writeShaderResultToFile(
-      ImageJobResult shaderResult,
-      File shaderResultFile,
-      Optional<File> referenceShaderResultFile) throws InterruptedException, IOException {
-
-    writeShaderResultToFileHelper(
-        shaderResult,
-        shaderResultFile,
-        this,
-        referenceShaderResultFile);
-  }
-
   public void writeStringToFile(File file, String contents) throws IOException {
     FileUtils.writeStringToFile(file, contents, Charset.defaultCharset());
   }
@@ -704,39 +531,6 @@ public class ShaderJobFileOperations {
       resultDir = new File(".");
     }
     return resultDir;
-  }
-
-  private static JsonObject makeInfoJson(
-      ImageJobResult res,
-      File outputImage,
-      Optional<ImageData> referenceImage) throws IOException {
-    JsonObject infoJson = new JsonObject();
-    if (res.isSetTimingInfo()) {
-      JsonObject timingInfoJson = new JsonObject();
-      timingInfoJson.addProperty("compilationTime", res.timingInfo.compilationTime);
-      timingInfoJson.addProperty("linkingTime", res.timingInfo.linkingTime);
-      timingInfoJson.addProperty("firstRenderTime", res.timingInfo.firstRenderTime);
-      timingInfoJson.addProperty("otherRendersTime", res.timingInfo.otherRendersTime);
-      timingInfoJson.addProperty("captureTime", res.timingInfo.captureTime);
-      infoJson.add("timingInfo", timingInfoJson);
-    }
-    if (res.isSetPng() && referenceImage.isPresent()) {
-      // Add image data, e.g. histogram distance
-      final JsonObject metrics = new JsonObject();
-      referenceImage.get().getImageDiffStats(new ImageData(outputImage.getAbsolutePath()), metrics);
-      boolean isIdentical =
-          ImageUtil.identicalImages(outputImage, referenceImage.get().imageFile);
-      metrics.addProperty("identical", isIdentical);
-      infoJson.add("metrics", metrics);
-    }
-    if (res.isSetStage()) {
-      infoJson.addProperty("stage", res.stage.toString());
-    }
-    if (res.isSetStatus()) {
-      infoJson.addProperty("status", res.getStatus().toString());
-    }
-    infoJson.addProperty("passSanityCheck", "" + res.passSanityCheck);
-    return infoJson;
   }
 
   private static PrintStream ps(File file) throws FileNotFoundException {
@@ -965,25 +759,6 @@ public class ShaderJobFileOperations {
     return new File(shaderJobFileWithoutExtension + ".png");
   }
 
-  private void setPrimitives(ImageJob imageJob, File primitivesFile) throws IOException {
-
-    JsonObject json = new Gson().fromJson(new FileReader(primitivesFile),
-        JsonObject.class);
-    imageJob.setPoints(getPointsFromJson(json, "points"));
-    if (json.has("texPoints")) {
-      imageJob.setTexturePoints(getPointsFromJson(json, "texPoints"));
-      if (!json.has("texture")) {
-        throw new RuntimeException("If texture points are provided, a texture must be provided");
-      }
-      final File textureFile = new File(primitivesFile.getParentFile(),
-          json.get("texture").getAsString());
-      if (!textureFile.isFile()) {
-        throw new RuntimeException("Could not find texture file " + textureFile.getAbsolutePath());
-      }
-      imageJob.setTextureBinary(FileUtils.readFileToByteArray(textureFile));
-    }
-  }
-
   private boolean shaderIsValid(
       File shaderFile,
       boolean throwExceptionOnValidationError,
@@ -1026,180 +801,6 @@ public class ShaderJobFileOperations {
       return false;
     }
     return true;
-  }
-
-
-  /**
-   * This method is quite complicated compared to others in this class,
-   * so it is static in case we want to test it via a mocked ShaderJobFileOperations fileOps.
-   * However, gif creation and image data creation is not mockable yet.
-   */
-  protected static void writeShaderResultToFileHelper(
-      ImageJobResult shaderResult,
-      File shaderJobResultFile,
-      ShaderJobFileOperations fileOps,
-      Optional<File> referenceShaderResultFile) throws InterruptedException, IOException {
-
-    assertIsShaderJobResultFile(shaderJobResultFile);
-
-    String shaderJobResultNoExtension =
-        FileHelper.removeEnd(shaderJobResultFile.toString(), ".info.json");
-
-    // Write the log component of the result to a text file, for easy viewing.
-    if (shaderResult.isSetLog()) {
-      fileOps.writeStringToFile(
-          new File(shaderJobResultNoExtension + ".txt"),
-          shaderResult.getLog());
-    }
-
-    // Special case: compute shader job.
-    if (shaderResult.isSetComputeOutputs()) {
-
-      // In addition to a status and log, results for a compute shader job have:
-      // - an "outputs" property, which maps to a dictionary representing the results
-      //   that were obtained by running the shader;
-      // - (if reference result is present) a "comparison_with_reference" property
-      //   describing whether or not the computed results exactly or nearly match those
-      //   for the reference.
-
-      JsonObject infoJson = new JsonObject();
-      if (shaderResult.isSetStatus()) {
-        infoJson.addProperty("status", shaderResult.getStatus().toString());
-      }
-      if (shaderResult.isSetLog()) {
-        infoJson.addProperty("log", shaderResult.getLog());
-      }
-      if (shaderResult.isSetComputeOutputs()) {
-        infoJson.add(
-            "outputs", new Gson().fromJson(shaderResult.getComputeOutputs(), JsonObject.class));
-      }
-
-      // We write out the .info.json file now, so that the Python tooling for diffing compute
-      // shader results can be invoked on it if needed.
-      fileOps.writeStringToFile(
-          shaderJobResultFile,
-          infoJson.toString());
-
-      if (referenceShaderResultFile.isPresent()) {
-
-        // We have reference results, so can populate the "comparison_with_reference" property.
-
-        // This maps to a dictionary with up to 4 keys:
-        // - "exact_match", true if and only if the results are identical
-        // - "exactdiff_output", populated only if "exact_match" is false, with the result of
-        //   exact diffing
-        // - "fuzzy_match", present only if "exact_match" is false, and then true if and only if
-        //   the results are similar
-        // - "fuzzydiff_output", present only if "fuzzy_diff" is set, with the result of
-        //   fuzzy diffing.
-
-        final JsonObject computeShaderComparisonWithReference = new JsonObject();
-
-        // Check whether the results exactly match those of the reference.
-
-        final ExecResult exactDiffResult =
-            fileOps.runPythonDriver(ExecHelper.RedirectType.TO_BUFFER,
-            null,
-            "inspect-compute-results",
-            "exactdiff",
-            referenceShaderResultFile.get().getAbsolutePath(),
-            shaderJobResultFile.getAbsolutePath());
-        computeShaderComparisonWithReference.addProperty("exact_match",
-            exactDiffResult.res == 0);
-
-        if (exactDiffResult.res != 0) {
-
-          // In the case that we do not have an exact match, store the output obtained by exact
-          // diffing (as it may be useful to inspect).
-          computeShaderComparisonWithReference.addProperty("exactdiff_output",
-              exactDiffResult.stderr.toString());
-
-          // Now perform a fuzzy diff.
-          final ExecResult fuzzyDiffResult =
-              fileOps.runPythonDriver(ExecHelper.RedirectType.TO_BUFFER,
-              null,
-              "inspect-compute-results",
-              "fuzzydiff",
-              referenceShaderResultFile.get().getAbsolutePath(),
-              shaderJobResultFile.getAbsolutePath());
-          computeShaderComparisonWithReference.addProperty("fuzzy_match",
-              fuzzyDiffResult.res == 0);
-          computeShaderComparisonWithReference.addProperty("fuzzydiff_output",
-              fuzzyDiffResult.stderr.toString());
-        }
-        infoJson.add("comparison_with_reference", computeShaderComparisonWithReference);
-      }
-
-      fileOps.writeStringToFile(
-          shaderJobResultFile,
-          infoJson.toString());
-
-      return;
-    }
-
-    final File outputImage = new File(shaderJobResultNoExtension + ".png");
-
-    if (shaderResult.isSetPng()) {
-      fileOps.writeByteArrayToFile(outputImage, shaderResult.getPng());
-    }
-
-    // TODO: Not mockable yet; directly accesses files.
-
-    // Create gif when there is two image files set. This may happen not only for NONDET state,
-    // but also in case of Sanity error after a nondet.
-    if (shaderResult.isSetPng() && shaderResult.isSetPng2()) {
-      // we can dump both images
-      File outputNondet1 = new File(shaderJobResultNoExtension + "_nondet1.png");
-      File outputNondet2 = new File(shaderJobResultNoExtension +  "_nondet2.png");
-      fileOps.writeByteArrayToFile(outputNondet1, shaderResult.getPng());
-      fileOps.writeByteArrayToFile(outputNondet2, shaderResult.getPng2());
-
-      // Create gif
-      try {
-        BufferedImage nondetImg = ImageIO.read(
-            Thread.currentThread().getContextClassLoader().getResourceAsStream("nondet.png"));
-        BufferedImage img1 = ImageIO.read(
-            new ByteArrayInputStream(shaderResult.getPng()));
-        BufferedImage img2 = ImageIO.read(
-            new ByteArrayInputStream(shaderResult.getPng2()));
-        File gifFile = new File(shaderJobResultNoExtension + ".gif");
-        ImageOutputStream gifOutput = new FileImageOutputStream(gifFile);
-        GifSequenceWriter gifWriter =
-            new GifSequenceWriter(
-                gifOutput,
-                img1.getType(),
-                500,
-                true);
-
-        gifWriter.writeToSequence(nondetImg);
-        gifWriter.writeToSequence(img1);
-        gifWriter.writeToSequence(img2);
-        gifWriter.close();
-        gifOutput.close();
-      } catch (Exception err) {
-        LOGGER.error("Error while creating GIF for nondet");
-      }
-    }
-
-
-    Optional<ImageData> referenceImageData = Optional.empty();
-    // TODO: Not mockable yet; directly accesses files.
-    if (referenceShaderResultFile.isPresent()
-        && fileOps.doesShaderJobResultFileHaveImage(referenceShaderResultFile.get())) {
-      referenceImageData =
-          Optional.of(
-              new ImageData(
-                  fileOps.getUnderlyingImageFileFromShaderJobResultFile(
-                      referenceShaderResultFile.get())));
-    }
-
-    // TODO: Not mockable yet; directly accesses files.
-    JsonObject infoObject = makeInfoJson(shaderResult, outputImage, referenceImageData);
-
-    // Dump job info in JSON
-    fileOps.writeStringToFile(
-        shaderJobResultFile,
-        JsonHelper.jsonToString(infoObject));
   }
 
   /**

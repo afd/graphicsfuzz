@@ -214,11 +214,6 @@ limitations under the License.
         <artifactId>alphanum-comparator</artifactId>
         <version>1.0</version>
       </dependency>
-      <dependency>
-        <groupId>com.graphicsfuzz.thirdparty</groupId>
-        <artifactId>gif-sequence-writer</artifactId>
-        <version>1.0</version>
-      </dependency>
 
       <!-- GraphicsFuzz projects -->
       <dependency>

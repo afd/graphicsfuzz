@@ -498,38 +498,4 @@ public class ReducerUnitTest {
         "--reduction-kind", "NO_IMAGE" });
   }
 
-  @Test
-  public void checkReductionIsFinite() throws Exception {
-    final String program =
-          "#version 100\n"
-                + "void main() {"
-                + "  gl_FragColor = vec4(1.0, 0.0, 0.0, 1.0);"
-                + "}\n";
-    final File reference = temporaryFolder.newFile("reference.frag");
-    final File referenceJson = temporaryFolder.newFile("reference.json");
-    final File referenceJsonFakeResult = temporaryFolder.newFile("reference.info.json");
-    final File referenceImage = temporaryFolder.newFile("reference.png");
-    FileUtils.writeStringToFile(reference, program, StandardCharsets.UTF_8);
-    FileUtils.writeStringToFile(referenceJson, "{ }", StandardCharsets.UTF_8);
-    FileUtils.writeStringToFile(referenceJsonFakeResult, "{ }", StandardCharsets.UTF_8);
-
-    final ExecResult referenceResult = ToolHelper.runSwiftshaderOnShader(RedirectType.TO_LOG,
-          reference, referenceImage, false);
-    assertEquals(0, referenceResult.res);
-    final File output = temporaryFolder.newFolder();
-    GlslReduce.mainHelper(new String[] {
-        referenceJson.getAbsolutePath(),
-        "--swiftshader",
-        "--reduction-kind",
-        "IDENTICAL",
-        "--reference",
-        referenceJsonFakeResult.getAbsolutePath(),
-        "--max-steps",
-        "-1",
-        "--seed",
-        "0",
-        "--output",
-        output.getAbsolutePath() });
-  }
-
 }

@@ -43,7 +43,6 @@ limitations under the License.
     <module>test-util</module>
     <module>tester</module>
     <module>third_party/alphanum-comparator</module>
-    <module>third_party/gif-sequence-writer</module>
     <module>third_party/jquery-js</module>
     <module>third_party/python-six</module>
     <module>third_party/semantic-ui</module>
