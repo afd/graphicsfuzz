@@ -34,7 +34,7 @@ abstract class Expr : IAstNode {
       throw IllegalArgumentException()
     }
     for (i in 0..<getNumChildren()) {
-      if (getChild(i) == child) {
+      if (getChild(i) === child) {
         setChild(i, newChild)
         return;
       }

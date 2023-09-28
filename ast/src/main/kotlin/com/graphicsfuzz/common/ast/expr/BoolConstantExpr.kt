@@ -16,7 +16,6 @@
 
 package com.graphicsfuzz.common.ast.expr;
 
-import com.graphicsfuzz.common.ast.IAstNode;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
 class BoolConstantExpr(val isTrue: Boolean): ConstantExpr() {

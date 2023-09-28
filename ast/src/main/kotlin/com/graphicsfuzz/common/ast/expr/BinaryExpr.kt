@@ -34,7 +34,7 @@ class BinaryExpr(var lhs: Expr, var rhs: Expr, val op: BinOp) : Expr() {
 
   override fun clone() : BinaryExpr = BinaryExpr(lhs.clone(), rhs.clone(), op)
 
-  override fun hasChild(candidateChild: IAstNode): Boolean = lhs == candidateChild || rhs == candidateChild
+  override fun hasChild(candidateChild: IAstNode): Boolean = lhs === candidateChild || rhs === candidateChild
 
   override fun getChild(index: Int): Expr {
     if (index == 0) {

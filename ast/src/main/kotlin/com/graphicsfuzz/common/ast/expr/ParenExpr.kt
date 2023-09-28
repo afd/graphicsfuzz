@@ -19,53 +19,33 @@ package com.graphicsfuzz.common.ast.expr;
 import com.graphicsfuzz.common.ast.IAstNode;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public class ParenExpr extends Expr {
+class ParenExpr(private var expr: Expr) : Expr() {
 
-  private Expr expr;
+  fun getExpr(): Expr = expr
 
-  public ParenExpr(Expr expr) {
-    this.expr = expr;
-  }
-
-  public Expr getExpr() {
-    return expr;
-  }
-
-  @Override
-  public void accept(IAstVisitor visitor) {
+  override fun accept(visitor: IAstVisitor) {
     visitor.visitParenExpr(this);
   }
 
-  @Override
-  public ParenExpr clone() {
-    return new ParenExpr(expr.clone());
-  }
+  override fun clone(): ParenExpr = ParenExpr(expr.clone())
 
-  @Override
-  public boolean hasChild(IAstNode candidateChild) {
-    return candidateChild == expr;
-  }
+  override fun hasChild(candidateChild: IAstNode) = candidateChild === expr
 
-  @Override
-  public Expr getChild(int index) {
+  override fun getChild(index: Int): Expr {
     if (index == 0) {
       return expr;
     }
-    throw new IndexOutOfBoundsException("Index for ParenExpr must be 0");
+    throw IndexOutOfBoundsException("Index for ParenExpr must be 0");
   }
 
-  @Override
-  public void setChild(int index, Expr expr) {
+  override fun setChild(index: Int, expr: Expr) {
     if (index == 0) {
       this.expr = expr;
       return;
     }
-    throw new IndexOutOfBoundsException("Index for ParenExpr must be 0");
+    throw IndexOutOfBoundsException("Index for ParenExpr must be 0");
   }
 
-  @Override
-  public int getNumChildren() {
-    return 1;
-  }
+  override fun getNumChildren(): Int = 1
 
 }

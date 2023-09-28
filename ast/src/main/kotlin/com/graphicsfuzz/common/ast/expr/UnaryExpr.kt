@@ -20,11 +20,13 @@ import com.graphicsfuzz.common.ast.IAstNode;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 import java.util.Collections;
 
-class UnaryExpr(var expr: Expr, val op: UnOp) : Expr() {
+class UnaryExpr(private var expr: Expr, val op: UnOp) : Expr() {
 
   init {
     checkNoTopLevelCommaExpression(Collections.singletonList(expr))
   }
+
+  fun getExpr(): Expr = expr
 
   override fun accept(visitor: IAstVisitor) {
     visitor.visitUnaryExpr(this)
