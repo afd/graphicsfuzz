@@ -40,9 +40,8 @@ limitations under the License.
     <!-- Default to UTF-8 otherwise Maven complains -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-    <maven.compiler.source>1.8</maven.compiler.source>
-    <maven.compiler.target>1.8</maven.compiler.target>
-    <jettyVersion>9.4.36.v20210114</jettyVersion>
+    <maven.compiler.release>17</maven.compiler.release>
+    <jettyVersion>12.0.1</jettyVersion>
   </properties>
 
   <!-- Dependency versions -->
@@ -50,14 +49,6 @@ limitations under the License.
     <dependencies>
 
       <!-- binaries -->
-
-      <dependency>
-        <groupId>com.github.mc-imperial</groupId>
-        <artifactId>thrift-compiler-binary</artifactId>
-        <version>6e3ee39</version>
-        <type>zip</type>
-      </dependency>
-
 
       <dependency>
         <groupId>junit</groupId>
@@ -86,12 +77,7 @@ limitations under the License.
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
         <artifactId>jetty-servlet</artifactId>
-        <version>${jettyVersion}</version>
-      </dependency>
-      <dependency>
-        <groupId>org.eclipse.jetty</groupId>
-        <artifactId>jetty-server</artifactId>
-        <version>${jettyVersion}</version>
+        <version>11.0.16</version>
       </dependency>
       <dependency>
         <groupId>org.eclipse.jetty</groupId>
@@ -111,9 +97,9 @@ limitations under the License.
         <version>4.5.13</version>
       </dependency>
       <dependency>
-        <groupId>org.apache.httpcomponents</groupId>
-        <artifactId>httpclient</artifactId>
-        <version>4.5.13</version>
+        <groupId>org.apache.httpcomponents.client5</groupId>
+        <artifactId>httpclient5</artifactId>
+        <version>5.2.1</version>
       </dependency>
       <dependency>
         <artifactId>httpcore</artifactId>
@@ -123,7 +109,7 @@ limitations under the License.
       <dependency>
         <groupId>commons-io</groupId>
         <artifactId>commons-io</artifactId>
-        <version>2.11.0</version>
+        <version>2.13.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.commons</groupId>
@@ -133,59 +119,39 @@ limitations under the License.
       <dependency>
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-compress</artifactId>
-        <version>1.21</version>
+        <version>1.24.0</version>
       </dependency>
 
       <dependency>
         <groupId>com.google.code.gson</groupId>
         <artifactId>gson</artifactId>
-        <version>2.8.6</version>
+        <version>2.10.1</version>
       </dependency>
 
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-simple</artifactId>
-        <version>1.7.32</version>
+        <version>2.0.9</version>
       </dependency>
       <dependency>
         <groupId>org.slf4j</groupId>
         <artifactId>slf4j-api</artifactId>
-        <version>1.7.32</version>
+        <version>2.0.9</version>
       </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-api</artifactId>
-        <version>2.17.1</version>
+        <version>2.20.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-slf4j-impl</artifactId>
-        <version>2.17.1</version>
+        <version>2.20.0</version>
       </dependency>
       <dependency>
         <groupId>org.apache.logging.log4j</groupId>
         <artifactId>log4j-core</artifactId>
-        <version>2.17.1</version>
-      </dependency>
-
-      <dependency>
-        <groupId>org.apache.thrift</groupId>
-        <artifactId>libthrift</artifactId>
-        <version>0.13.0</version>
-        <exclusions>
-          <exclusion>
-            <artifactId>slf4j-api</artifactId>
-            <groupId>org.slf4j</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>httpclient</artifactId>
-            <groupId>org.apache.httpcomponents</groupId>
-          </exclusion>
-          <exclusion>
-            <artifactId>httpcore</artifactId>
-            <groupId>org.apache.httpcomponents</groupId>
-          </exclusion>
-        </exclusions>
+        <version>2.20.0</version>
       </dependency>
 
       <dependency>
@@ -248,11 +214,6 @@ limitations under the License.
         <artifactId>alphanum-comparator</artifactId>
         <version>1.0</version>
       </dependency>
-      <dependency>
-        <groupId>com.graphicsfuzz.thirdparty</groupId>
-        <artifactId>gif-sequence-writer</artifactId>
-        <version>1.0</version>
-      </dependency>
 
       <!-- GraphicsFuzz projects -->
       <dependency>
@@ -303,17 +264,7 @@ limitations under the License.
       </dependency>
       <dependency>
         <groupId>com.graphicsfuzz</groupId>
-        <artifactId>fuzzerserver</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.graphicsfuzz</groupId>
         <artifactId>generator</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.graphicsfuzz</groupId>
-        <artifactId>gles-worker-dependencies</artifactId>
         <version>1.0</version>
       </dependency>
       <dependency>
@@ -344,27 +295,6 @@ limitations under the License.
       </dependency>
       <dependency>
         <groupId>com.graphicsfuzz</groupId>
-        <artifactId>server</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.graphicsfuzz</groupId>
-        <artifactId>server-public</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.graphicsfuzz</groupId>
-        <artifactId>server-static-public</artifactId>
-        <type>zip</type>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.graphicsfuzz</groupId>
-        <artifactId>server-thrift-gen</artifactId>
-        <version>1.0</version>
-      </dependency>
-      <dependency>
-        <groupId>com.graphicsfuzz</groupId>
         <artifactId>shaders</artifactId>
         <version>1.0</version>
         <type>zip</type>
@@ -386,28 +316,6 @@ limitations under the License.
         <groupId>com.graphicsfuzz</groupId>
         <artifactId>test-util</artifactId>
         <version>1.0</version>
-      </dependency>
-
-      <dependency>
-        <groupId>com.graphicsfuzz</groupId>
-        <artifactId>thrift</artifactId>
-        <version>1.0</version>
-        <type>zip</type>
-        <classifier>java</classifier>
-      </dependency>
-      <dependency>
-        <groupId>com.graphicsfuzz</groupId>
-        <artifactId>thrift</artifactId>
-        <version>1.0</version>
-        <type>zip</type>
-        <classifier>python</classifier>
-      </dependency>
-      <dependency>
-        <groupId>com.graphicsfuzz</groupId>
-        <artifactId>thrift</artifactId>
-        <version>1.0</version>
-        <type>zip</type>
-        <classifier>js</classifier>
       </dependency>
 
       <dependency>
@@ -438,20 +346,6 @@ limitations under the License.
         <groupId>com.graphicsfuzz.thirdparty</groupId>
         <artifactId>semantic-ui</artifactId>
         <version>2.0.7</version>
-        <type>zip</type>
-      </dependency>
-
-      <dependency>
-        <groupId>com.graphicsfuzz.thirdparty</groupId>
-        <artifactId>thrift-py</artifactId>
-        <version>1.0</version>
-        <type>zip</type>
-      </dependency>
-
-      <dependency>
-        <groupId>com.graphicsfuzz.thirdparty</groupId>
-        <artifactId>thrift-js</artifactId>
-        <version>1.0</version>
         <type>zip</type>
       </dependency>
 
@@ -491,7 +385,7 @@ limitations under the License.
         </plugin>
         <plugin>
           <artifactId>maven-dependency-plugin</artifactId>
-          <version>3.1.2</version>
+          <version>3.6.0</version>
         </plugin>
         <plugin>
           <artifactId>maven-surefire-plugin</artifactId>
@@ -520,7 +414,7 @@ limitations under the License.
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-checkstyle-plugin</artifactId>
-          <version>3.1.0</version>
+          <version>3.3.0</version>
           <dependencies>
             <dependency>
               <groupId>com.graphicsfuzz</groupId>

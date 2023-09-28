@@ -38,89 +38,6 @@ public class GlslReduceTest {
   public TemporaryFolder temporaryFolder = new TemporaryFolder();
 
   @Test
-  public void noServerAllowedInCustomReduction() throws Exception {
-    try {
-
-      GlslReduce.mainHelper(new String[]{"--server", "some_server", "--worker", "some_worker",
-              makeShaderJobAndReturnJsonFilename(), "--reduction-kind", "CUSTOM", "--output",
-              temporaryFolder.getRoot().getAbsolutePath()}, null);
-      fail();
-    } catch (RuntimeException exception) {
-      checkOptionNotAllowed(exception, "server");
-    }
-  }
-
-  @Test
-  public void noWorkerNameAllowedInCustomReduction() throws Exception {
-    try {
-      GlslReduce.mainHelper(new String[]{"--worker", "some_worker",
-          makeShaderJobAndReturnJsonFilename(), "--reduction-kind", "CUSTOM", "--output",
-          temporaryFolder.getRoot().getAbsolutePath()}, null);
-      assertTrue(false);
-    } catch (RuntimeException exception) {
-      checkOptionNotAllowed(exception, "worker");
-    }
-  }
-
-  @Test
-  public void noErrorStringAllowedInCustomReduction() throws Exception {
-    try {
-      GlslReduce.mainHelper(new String[]{"--error-string", "some_string",
-          makeShaderJobAndReturnJsonFilename(), "--reduction-kind", "CUSTOM", "--output",
-          temporaryFolder.getRoot().getAbsolutePath()}, null);
-      assertTrue(false);
-    } catch (RuntimeException exception) {
-      checkOptionNotAllowed(exception, "error-string");
-    }
-  }
-
-  @Test
-  public void noReferenceAllowedInCustomReduction() throws Exception {
-    try {
-      GlslReduce.mainHelper(new String[]{"--reference", "reference.info.json",
-          makeShaderJobAndReturnJsonFilename(),
-          "--reduction-kind", "CUSTOM", "--output", temporaryFolder.getRoot().getAbsolutePath()},
-          null);
-      assertTrue(false);
-    } catch (RuntimeException exception) {
-      checkOptionNotAllowed(exception, "reference");
-    }
-  }
-
-  private void checkOptionNotAllowed(RuntimeException exception, String option) {
-    assertTrue(exception.getMessage().contains(option + "' option is not compatible"));
-  }
-
-  @Test
-  public void noCustomJudgeAllowedInNonCustomReduction() throws Exception {
-    try {
-      GlslReduce.mainHelper(new String[]{makeShaderJobAndReturnJsonFilename(),
-          "--reduction-kind", "NO_IMAGE",
-          "somejudgescript", "--output",
-          temporaryFolder.getRoot().getAbsolutePath()},
-          null);
-      fail();
-    } catch (RuntimeException exception) {
-      assertTrue(exception.getMessage().contains("An interestingness test is only supported when "
-          + "a custom reduction is used."));
-    }
-  }
-
-  @Test
-  public void customJudgeRequiredInCustomReduction() throws Exception {
-    try {
-      GlslReduce.mainHelper(new String[]{makeShaderJobAndReturnJsonFilename(), "--reduction-kind",
-          "CUSTOM", "--output",
-          temporaryFolder.getRoot().getAbsolutePath()}, null);
-      fail();
-    } catch (RuntimeException exception) {
-      assertTrue(exception.getMessage().contains("A custom reduction requires an interestingness "
-          + "test to be specified."));
-    }
-
-  }
-
-  @Test
   public void checkCustomJudgeIsExecutable() throws Exception {
     if (ExecHelper.IS_WINDOWS) {
       // All files are executable on Windows.
@@ -131,11 +48,9 @@ public class GlslReduceTest {
     try {
       GlslReduce.mainHelper(new String[]{
           jsonFile.getAbsolutePath(),
-          "--reduction-kind",
-          "CUSTOM",
           emptyFile.getAbsolutePath(),
           "--output",
-          temporaryFolder.getRoot().getAbsolutePath()}, null);
+          temporaryFolder.getRoot().getAbsolutePath()});
       fail("An exception should have been thrown as the judge script is not executable.");
     } catch (RuntimeException exception) {
       assertTrue(exception.getMessage().contains("judge script must be executable"));
@@ -152,11 +67,9 @@ public class GlslReduceTest {
     emptyFile.setExecutable(true);
     GlslReduce.mainHelper(new String[]{
         jsonFile.getAbsolutePath(),
-        "--reduction-kind",
-        "CUSTOM",
         emptyFile.getAbsolutePath(),
         "--output",
-        temporaryFolder.getRoot().getAbsolutePath()}, null);
+        temporaryFolder.getRoot().getAbsolutePath()});
     final File[] reducedFinal = temporaryFolder.getRoot().listFiles((dir, name) -> name.contains(
         "reduced_final.frag"));
     assertEquals(1, reducedFinal.length);

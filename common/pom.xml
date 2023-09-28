@@ -93,14 +93,6 @@ limitations under the License.
       <groupId>com.graphicsfuzz</groupId>
       <artifactId>util</artifactId>
     </dependency>
-    <dependency>
-      <groupId>com.graphicsfuzz</groupId>
-      <artifactId>server-thrift-gen</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>com.graphicsfuzz.thirdparty</groupId>
-      <artifactId>gif-sequence-writer</artifactId>
-    </dependency>
 
     <dependency>
       <groupId>org.bytedeco.javacpp-presets</groupId>
@@ -129,14 +121,6 @@ limitations under the License.
       <scope>runtime</scope>
     </dependency>
 
-    <dependency>
-      <groupId>org.apache.httpcomponents</groupId>
-      <artifactId>httpclient</artifactId>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.thrift</groupId>
-      <artifactId>libthrift</artifactId>
-    </dependency>
     <dependency>
       <groupId>commons-codec</groupId>
       <artifactId>commons-codec</artifactId>

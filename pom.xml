@@ -31,32 +31,21 @@ limitations under the License.
     <module>assembly-binaries</module>
     <module>ast</module>
     <module>checkstyle-config</module>
-    <module>client-tests</module>
     <module>common</module>
     <module>compare-asts</module>
-    <module>fuzzerserver</module>
     <module>generator</module>
-    <module>gles-worker-dependencies</module>
     <module>graphicsfuzz</module>
     <module>parent-all</module>
     <module>parent-checkstyle</module>
     <module>python</module>
     <module>reducer</module>
-    <module>server-public</module>
-    <module>server-static-public</module>
-    <module>server-thrift-gen</module>
-    <module>server</module>
     <module>shaders</module>
     <module>test-util</module>
     <module>tester</module>
     <module>third_party/alphanum-comparator</module>
-    <module>third_party/gif-sequence-writer</module>
     <module>third_party/jquery-js</module>
     <module>third_party/python-six</module>
     <module>third_party/semantic-ui</module>
-    <module>third_party/thrift-js</module>
-    <module>third_party/thrift-py</module>
-    <module>thrift</module>
     <module>tool</module>
     <module>util</module>
     <module>zip-helper</module>
