@@ -93,7 +93,7 @@ public class GloballyTruncateLoops {
         // Check if the loop condition is just "false".
         private boolean isFalseLiteral(Expr conditionExpr) {
           return !(conditionExpr instanceof BoolConstantExpr
-              && !((BoolConstantExpr)conditionExpr).getIsTrue());
+              && !((BoolConstantExpr)conditionExpr).isTrue());
         }
 
         // Common code for all loop structures

@@ -19,36 +19,14 @@ package com.graphicsfuzz.common.ast.expr;
 import com.graphicsfuzz.common.ast.IAstNode;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public class BoolConstantExpr extends ConstantExpr {
+class BoolConstantExpr(val isTrue: Boolean): ConstantExpr() {
 
-  private final boolean isTrue;
-
-  public BoolConstantExpr(boolean isTrue) {
-    this.isTrue = isTrue;
-  }
-
-  @Override
-  public boolean hasChild(IAstNode child) {
-    return false;
-  }
-
-  @Override
-  public void accept(IAstVisitor visitor) {
+  override fun accept(visitor: IAstVisitor) {
     visitor.visitBoolConstantExpr(this);
   }
 
-  @Override
-  public BoolConstantExpr clone() {
-    return new BoolConstantExpr(isTrue);
-  }
+  override fun clone(): BoolConstantExpr = BoolConstantExpr(isTrue)
 
-  @Override
-  public String toString() {
-    return isTrue ? "true" : "false";
-  }
-
-  public boolean getIsTrue() {
-    return isTrue;
-  }
+  override fun toString(): String = if (isTrue) "true" else "false"
 
 }
