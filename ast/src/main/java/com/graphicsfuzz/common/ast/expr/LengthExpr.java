@@ -33,7 +33,7 @@ public class LengthExpr extends Expr {
   }
 
   public void setReceiver(Expr receiver) {
-    checkNoTopLevelCommaExpression(Collections.singletonList(receiver));
+    Expr.Companion.checkNoTopLevelCommaExpression(Collections.singletonList(receiver));
     if (receiver == null) {
       throw new IllegalArgumentException("Length expression cannot have null receiver");
     }

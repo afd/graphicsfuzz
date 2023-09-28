@@ -30,7 +30,7 @@ public class FunctionCallExpr extends Expr {
   private List<Expr> args;
 
   public FunctionCallExpr(String callee, List<Expr> args) {
-    checkNoTopLevelCommaExpression(args);
+    Expr.Companion.checkNoTopLevelCommaExpression(args);
     this.callee = callee;
     this.args = new ArrayList<>();
     this.args.addAll(args);

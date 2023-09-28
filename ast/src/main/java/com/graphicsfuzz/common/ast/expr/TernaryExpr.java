@@ -35,7 +35,7 @@ public class TernaryExpr extends Expr {
   public TernaryExpr(Expr test, Expr thenExpr, Expr elseExpr) {
     // The 'test' and 'else' expressions are not allowed to be top-level instances of the comma
     // operator, but the 'then' expression is, e.g. 'a ? b, c : d' is legal.
-    checkNoTopLevelCommaExpression(Arrays.asList(test, elseExpr));
+    Expr.Companion.checkNoTopLevelCommaExpression(Arrays.asList(test, elseExpr));
     this.test = test;
     this.thenExpr = thenExpr;
     this.elseExpr = elseExpr;

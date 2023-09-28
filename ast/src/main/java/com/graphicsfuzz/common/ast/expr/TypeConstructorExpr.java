@@ -36,7 +36,7 @@ public class TypeConstructorExpr extends Expr {
    * @param args Types of the arguments
    */
   public TypeConstructorExpr(String type, List<Expr> args) {
-    checkNoTopLevelCommaExpression(args);
+    Expr.Companion.checkNoTopLevelCommaExpression(args);
     assert type != null;
     this.type = type;
     this.args = new ArrayList<>();

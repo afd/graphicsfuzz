@@ -35,7 +35,7 @@ public class MemberLookupExpr extends Expr {
   }
 
   public void setStructure(Expr structure) {
-    checkNoTopLevelCommaExpression(Collections.singletonList(structure));
+    Expr.Companion.checkNoTopLevelCommaExpression(Collections.singletonList(structure));
     if (structure == null) {
       throw new IllegalArgumentException("Member lookup expression cannot have null structure");
     }
