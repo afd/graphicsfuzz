@@ -19,31 +19,24 @@ package com.graphicsfuzz.common.ast.expr;
 import com.graphicsfuzz.common.ast.IAstNode;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public class FloatConstantExpr extends ConstantExpr {
+class VariableIdentifierExpr(var name: String) : Expr() {
 
-  private String value;
-
-  public FloatConstantExpr(String text) {
-    this.value = text;
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitVariableIdentifierExpr(this)
   }
 
-  @Override
-  public boolean hasChild(IAstNode child) {
-    return false;
+  override fun clone(): VariableIdentifierExpr = VariableIdentifierExpr(name)
+
+  override fun hasChild(candidateChild: IAstNode): Boolean = false
+
+  override fun getChild(index: Int): Expr {
+    throw IndexOutOfBoundsException("VariableIdentifierExpr has no children");
   }
 
-  public String getValue() {
-    return value;
+  override fun setChild(index: Int, expr: Expr) {
+    throw IndexOutOfBoundsException("VariableIdentifierExpr has no children")
   }
 
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitFloatConstantExpr(this);
-  }
-
-  @Override
-  public FloatConstantExpr clone() {
-    return new FloatConstantExpr(value);
-  }
+  override fun getNumChildren(): Int = 0
 
 }

@@ -16,21 +16,33 @@
 
 package com.graphicsfuzz.common.ast.expr;
 
-public abstract class ConstantExpr extends Expr {
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-  @Override
-  public final Expr getChild(int index) {
-    throw new IndexOutOfBoundsException("ConstExpr has no children");
+class IntConstantExpr(val value: String) : ConstantExpr() {
+
+  init {
+    assert(!text.contains("u"))
   }
 
-  @Override
-  public final void setChild(int index, Expr expr) {
-    throw new IndexOutOfBoundsException("ConstExpr has no children");
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitIntConstantExpr(this);
   }
 
-  @Override
-  public final int getNumChildren() {
-    return 0;
+  override fun clone(): IntConstantExpr = IntConstantExpr(value);
+
+  fun getNumericValue(): Int {
+    if (isOctal()) {
+      return value.toInt(8)
+    }
+    if (isHex()) {
+      return value.substring("0x".length).toInt(16)
+    }
+    return value.toInt()
   }
+
+  private fun isOctal(): Boolean = value.startsWith("0")
+      && value.length > 1 && !isHex()
+
+  private fun isHex(): Boolean = value.startsWith("0x")
 
 }
