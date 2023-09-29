@@ -20,7 +20,7 @@ import com.graphicsfuzz.common.ast.expr.BoolConstantExpr;
 import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.expr.FloatConstantExpr;
 import com.graphicsfuzz.common.ast.expr.IntConstantExpr;
-import com.graphicsfuzz.common.ast.expr.TypeConstructorExpr;
+import com.graphicsfuzz.common.ast.expr.TypeConstructorExprKt;
 import com.graphicsfuzz.common.ast.expr.UIntConstantExpr;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 import com.graphicsfuzz.common.typing.Scope;
@@ -165,7 +165,7 @@ public class BasicType extends BuiltinType {
     if (this == BOOL) {
       return new BoolConstantExpr(true);
     }
-    return new TypeConstructorExpr(toString(),
+    return TypeConstructorExprKt.createTypeConstructorExpr(toString(),
         getElementType().getCanonicalConstant(scope));
   }
 

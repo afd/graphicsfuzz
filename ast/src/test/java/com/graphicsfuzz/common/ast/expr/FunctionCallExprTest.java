@@ -36,7 +36,7 @@ public class FunctionCallExprTest {
   public void setUp() {
     arg1 = new BinaryExpr(new IntConstantExpr("1"), new IntConstantExpr("1"), BinOp.ADD);
     arg2 = new BoolConstantExpr(true);
-    arg3 = new TypeConstructorExpr("vec2", new FloatConstantExpr("0.0"));
+    arg3 = TypeConstructorExprKt.createTypeConstructorExpr("vec2", new FloatConstantExpr("0.0"));
     arg4 = new FunctionCallExpr("voidArgsFunction", new ArrayList<>());
     fce = new FunctionCallExpr("someFunction", arg1, arg2, arg3, arg4);
   }
