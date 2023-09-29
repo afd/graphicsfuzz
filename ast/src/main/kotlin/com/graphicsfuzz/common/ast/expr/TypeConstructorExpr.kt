@@ -22,7 +22,7 @@ import java.util.Collections;
 
 class TypeConstructorExpr(var typename: String, argsData: List<Expr>) : Expr() {
 
-  private var args: MutableList<Expr> = argsData.toMutableList()
+  private val args: MutableList<Expr> = argsData.toMutableList()
 
   init {
     checkNoTopLevelCommaExpression(argsData);

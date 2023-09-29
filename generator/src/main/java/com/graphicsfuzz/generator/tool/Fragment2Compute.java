@@ -30,6 +30,7 @@ import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.expr.FloatConstantExpr;
 import com.graphicsfuzz.common.ast.expr.MemberLookupExpr;
 import com.graphicsfuzz.common.ast.expr.TypeConstructorExpr;
+import com.graphicsfuzz.common.ast.expr.TypeConstructorExprKt;
 import com.graphicsfuzz.common.ast.expr.VariableIdentifierExpr;
 import com.graphicsfuzz.common.ast.stmt.BlockStmt;
 import com.graphicsfuzz.common.ast.stmt.ExprStmt;
@@ -194,7 +195,7 @@ public class Fragment2Compute {
             // It has no scope; i.e., it is built-in - so it is the real gl_FragCoord.
             // Replace it with something made from gl_GlobalInvocationID.
             parentMap.getParent(variableIdentifierExpr).replaceChild(variableIdentifierExpr,
-                new TypeConstructorExpr(
+                TypeConstructorExprKt.createTypeConstructorExpr(
                     BasicType.VEC4.toString(),
                     getGlobalInvocationIdCastToFloat("x"),
                     getGlobalInvocationIdCastToFloat("y"),
@@ -207,7 +208,7 @@ public class Fragment2Compute {
   }
 
   public static TypeConstructorExpr getGlobalInvocationIdCastToFloat(String dimension) {
-    return new TypeConstructorExpr(BasicType.FLOAT.toString(),
+    return TypeConstructorExprKt.createTypeConstructorExpr(BasicType.FLOAT.toString(),
         getGlobalInvocationId(dimension));
   }
 

@@ -23,6 +23,7 @@ import com.graphicsfuzz.common.ast.expr.BinOp;
 import com.graphicsfuzz.common.ast.expr.BinaryExpr;
 import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.expr.FunctionCallExpr;
+import com.graphicsfuzz.common.ast.expr.FunctionCallExprKt;
 import com.graphicsfuzz.common.ast.expr.UnOp;
 import com.graphicsfuzz.common.ast.expr.UnaryExpr;
 import com.graphicsfuzz.common.ast.expr.VariableIdentifierExpr;
@@ -182,11 +183,11 @@ public class AddWrappingConditionalMutation implements Mutation {
   }
 
   private Expr makeWrappedLoopCondition(Expr expr) {
-    return new FunctionCallExpr(Constants.GLF_WRAPPED_LOOP, expr);
+    return FunctionCallExprKt.createFunctionCallExpr(Constants.GLF_WRAPPED_LOOP, expr);
   }
 
   public static Expr makeWrappedIfCondition(Expr expr, boolean truth) {
-    return new FunctionCallExpr(truth
+    return FunctionCallExprKt.createFunctionCallExpr(truth
         ? Constants.GLF_WRAPPED_IF_TRUE
         : Constants.GLF_WRAPPED_IF_FALSE, expr);
   }

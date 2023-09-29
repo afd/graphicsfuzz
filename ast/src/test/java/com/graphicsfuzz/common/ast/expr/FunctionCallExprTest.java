@@ -38,7 +38,7 @@ public class FunctionCallExprTest {
     arg2 = new BoolConstantExpr(true);
     arg3 = TypeConstructorExprKt.createTypeConstructorExpr("vec2", new FloatConstantExpr("0.0"));
     arg4 = new FunctionCallExpr("voidArgsFunction", new ArrayList<>());
-    fce = new FunctionCallExpr("someFunction", arg1, arg2, arg3, arg4);
+    fce = FunctionCallExprKt.createFunctionCallExpr("someFunction", arg1, arg2, arg3, arg4);
   }
 
   @Test

@@ -20,6 +20,7 @@ import com.graphicsfuzz.common.ast.decl.VariableDeclInfo;
 import com.graphicsfuzz.common.ast.decl.VariablesDeclaration;
 import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.expr.FunctionCallExpr;
+import com.graphicsfuzz.common.ast.expr.FunctionCallExprKt;
 import com.graphicsfuzz.common.ast.expr.IntConstantExpr;
 import com.graphicsfuzz.common.ast.stmt.BlockStmt;
 import com.graphicsfuzz.common.ast.stmt.BreakStmt;
@@ -204,7 +205,7 @@ public class AddSwitchMutation implements Mutation {
                     shadingLanguageVersion,
                     random, generationParams));
 
-    block.setStmts(Collections.singletonList(new SwitchStmt(new FunctionCallExpr(
+    block.setStmts(Collections.singletonList(new SwitchStmt(FunctionCallExprKt.createFunctionCallExpr(
         Constants.GLF_SWITCH, zero),
         new BlockStmt(switchBodyStmts, true))));
   }
