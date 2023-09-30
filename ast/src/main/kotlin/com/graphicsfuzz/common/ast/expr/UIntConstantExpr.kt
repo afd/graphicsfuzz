@@ -19,56 +19,42 @@ package com.graphicsfuzz.common.ast.expr;
 import com.graphicsfuzz.common.ast.IAstNode;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public class UIntConstantExpr extends ConstantExpr {
+class UIntConstantExpr(val value: String) : ConstantExpr() {
 
-  private String value;
-
-  public UIntConstantExpr(String text) {
-    assert text.endsWith("u");
-    this.value = text;
+  init {
+    assert(value.endsWith("u"));
   }
 
-  @Override
-  public boolean hasChild(IAstNode child) {
-    return false;
-  }
+  override fun hasChild(candidateChild: IAstNode) = false
 
-  public String getValue() {
-    return value;
-  }
-
-  public int getNumericValue() {
+  fun getNumericValue(): Int {
     if (isOctal()) {
       return Integer.parseInt(getValueWithoutSuffix(), 8);
     }
     if (isHex()) {
-      return Integer.parseInt(getValueWithoutSuffix().substring("0x".length()), 16);
+      return Integer.parseInt(getValueWithoutSuffix().substring("0x".length), 16);
     }
     return Integer.parseInt(getValueWithoutSuffix());
   }
 
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitUIntConstantExpr(this);
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitUIntConstantExpr(this)
   }
 
-  @Override
-  public UIntConstantExpr clone() {
-    return new UIntConstantExpr(value);
+  override fun clone(): UIntConstantExpr = UIntConstantExpr(value)
+
+  private fun getValueWithoutSuffix(): String {
+    assert(value.endsWith("u"))
+    return value.substring(0, value.length - 1)
   }
 
-  private String getValueWithoutSuffix() {
-    assert value.endsWith("u");
-    return value.substring(0, value.length() - 1);
+  private fun isOctal(): Boolean {
+    return getValueWithoutSuffix().startsWith("0") && getValueWithoutSuffix().length > 1
+        && !isHex()
   }
 
-  private boolean isOctal() {
-    return getValueWithoutSuffix().startsWith("0") && getValueWithoutSuffix().length() > 1
-        && !isHex();
-  }
-
-  private boolean isHex() {
-    return getValueWithoutSuffix().startsWith("0x");
+  private fun isHex(): Boolean {
+    return getValueWithoutSuffix().startsWith("0x")
   }
 
 }

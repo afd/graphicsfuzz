@@ -19,7 +19,6 @@ package com.graphicsfuzz.common.util;
 import com.graphicsfuzz.common.ast.TranslationUnit;
 import com.graphicsfuzz.common.ast.expr.ArrayIndexExpr;
 import com.graphicsfuzz.common.ast.expr.Expr;
-import com.graphicsfuzz.common.ast.expr.FunctionCallExpr;
 import com.graphicsfuzz.common.ast.expr.FunctionCallExprKt;
 import com.graphicsfuzz.common.ast.expr.IntConstantExpr;
 import com.graphicsfuzz.common.ast.expr.UIntConstantExpr;
@@ -77,7 +76,8 @@ public class MakeArrayAccessesInBounds extends ScopeTrackingVisitor {
           : new UIntConstantExpr(getSize(type).toString() + "u");
 
       final Expr clampedIndexExpr =
-          FunctionCallExprKt.createFunctionCallExpr(indexType == BasicType.INT ? Constants.GLF_MAKE_IN_BOUNDS_INT :
+          FunctionCallExprKt.createFunctionCallExpr(
+              indexType == BasicType.INT ? Constants.GLF_MAKE_IN_BOUNDS_INT :
               Constants.GLF_MAKE_IN_BOUNDS_UINT,
               arrayIndexExpr.getIndex(),
               arraySize);

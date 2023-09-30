@@ -163,12 +163,6 @@ limitations under the License.
             <goals>
               <goal>copy-dependencies</goal>
             </goals>
-            <configuration>
-              <includeGroupIds>javax.annotation,javax.servlet</includeGroupIds>
-              <classifier>sources</classifier>
-              <failOnMissingClassifierArtifact>true</failOnMissingClassifierArtifact>
-              <outputDirectory>${project.build.directory}/sources</outputDirectory>
-            </configuration>
           </execution>
         </executions>
       </plugin>
@@ -215,7 +209,6 @@ limitations under the License.
                     <pathelement location="${git-file}"/>
                     <fileset dir="${project.basedir}/src/main/scripts"/>
                     <fileset dir="${project.build.directory}/dependency"/>
-                    <fileset dir="${project.build.directory}/sources"/>
                   </sourcefiles>
                   <targetfiles path="${touched-file}"/>
                   <sequential>
@@ -228,7 +221,6 @@ limitations under the License.
                       <zipfileset dir="${project.basedir}/src/main/scripts" excludes="examples/**"/>
                       <zipfileset dir="${project.basedir}/src/main/scripts" includes="examples/**" filemode="755"/>
                       <zipfileset dir="${project.build.directory}/dependency" prefix="jar" excludes="${exclude-jars-pattern}"/>
-                      <zipfileset dir="${project.build.directory}/sources" prefix="sources"/>
                       <file file="${git-file}"/>
                     </zip>
                     <unzip src="${assembly-zip}" dest="${assembly-dir}"/>

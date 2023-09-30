@@ -16,39 +16,25 @@
 
 package com.graphicsfuzz.common.ast.expr;
 
-public enum UnOp implements Op {
+enum class UnOp : Op {
   POST_INC, POST_DEC, PRE_INC, PRE_DEC, PLUS, MINUS, BNEG, LNOT;
 
   /**
    * Produce text representation of the unary operator.
    * @return Text representation
    */
-  @Override
-  public String getText() {
-    switch (this) {
-      case BNEG:
-        return "~";
-      case LNOT:
-        return "!";
-      case MINUS:
-        return "-";
-      case PLUS:
-        return "+";
-      case POST_DEC:
-        return "--";
-      case POST_INC:
-        return "++";
-      case PRE_DEC:
-        return "--";
-      default:
-      assert this == PRE_INC : "Unknown unary operator: " + this;
-        return "++";
+  override fun getText(): String = when (this) {
+      BNEG -> "~"
+      LNOT -> "!"
+      MINUS -> "-"
+      PLUS -> "+"
+      POST_DEC -> "--"
+      POST_INC -> "++"
+      PRE_DEC -> "--"
+      PRE_INC -> "++"
     }
-  }
 
-  @Override
-  public boolean isSideEffecting() {
-    return this == PRE_INC || this == PRE_DEC || this == POST_INC || this == POST_DEC;
-  }
+  override fun isSideEffecting(): Boolean =
+    this == PRE_INC || this == PRE_DEC || this == POST_INC || this == POST_DEC
 
 }

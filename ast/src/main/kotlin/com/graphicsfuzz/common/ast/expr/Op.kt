@@ -16,10 +16,10 @@
 
 package com.graphicsfuzz.common.ast.expr;
 
-public interface Op {
+interface Op {
 
-  boolean isSideEffecting();
+  fun isSideEffecting(): Boolean
 
-  String getText();
+  fun getText(): String
 
 }

@@ -32,7 +32,6 @@ import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.expr.FloatConstantExpr;
 import com.graphicsfuzz.common.ast.expr.FunctionCallExpr;
 import com.graphicsfuzz.common.ast.expr.ParenExpr;
-import com.graphicsfuzz.common.ast.expr.TypeConstructorExpr;
 import com.graphicsfuzz.common.ast.expr.TypeConstructorExprKt;
 import com.graphicsfuzz.common.ast.expr.VariableIdentifierExpr;
 import com.graphicsfuzz.common.ast.stmt.BlockStmt;
@@ -224,11 +223,12 @@ public final class FragmentShaderJobToVertexShaderJob {
                       new ParenExpr(
                           new BinaryExpr(
                               new VariableIdentifierExpr(Constants.GLF_POS),
-                              TypeConstructorExprKt.createTypeConstructorExpr(BasicType.VEC4.toString(),
-                                  new FloatConstantExpr("1.0"),
-                                  new FloatConstantExpr("1.0"),
-                                  new FloatConstantExpr("0.0"),
-                                  new FloatConstantExpr("0.0")),
+                              TypeConstructorExprKt.createTypeConstructorExpr(
+                                  BasicType.VEC4.toString(),
+                                      new FloatConstantExpr("1.0"),
+                                      new FloatConstantExpr("1.0"),
+                                      new FloatConstantExpr("0.0"),
+                                      new FloatConstantExpr("0.0")),
                               BinOp.ADD)),
                       TypeConstructorExprKt.createTypeConstructorExpr(BasicType.VEC4.toString(),
                           new FloatConstantExpr("128.0"),
