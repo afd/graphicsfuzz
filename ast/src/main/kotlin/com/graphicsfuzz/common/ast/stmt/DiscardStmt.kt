@@ -16,7 +16,14 @@
 
 package com.graphicsfuzz.common.ast.stmt;
 
-public abstract class CaseLabel extends Stmt {
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+
+class DiscardStmt : Stmt() {
+
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitDiscardStmt(this)
+  }
+
+  override fun clone(): DiscardStmt = DiscardStmt()
 
 }
-

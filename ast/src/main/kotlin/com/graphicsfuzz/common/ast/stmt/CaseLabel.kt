@@ -16,17 +16,4 @@
 
 package com.graphicsfuzz.common.ast.stmt;
 
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
-
-public final class DefaultCaseLabel extends CaseLabel {
-
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitDefaultCaseLabel(this);
-  }
-
-  @Override
-  public DefaultCaseLabel clone() {
-    return new DefaultCaseLabel();
-  }
-}
+abstract class CaseLabel : Stmt()

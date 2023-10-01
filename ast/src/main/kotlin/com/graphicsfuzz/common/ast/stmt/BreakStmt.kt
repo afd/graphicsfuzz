@@ -18,16 +18,12 @@ package com.graphicsfuzz.common.ast.stmt;
 
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public class NullStmt extends Stmt {
+class BreakStmt : Stmt() {
 
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitNullStmt(this);
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitBreakStmt(this)
   }
 
-  @Override
-  public NullStmt clone() {
-    return new NullStmt();
-  }
+  override fun clone(): BreakStmt = BreakStmt()
 
 }
