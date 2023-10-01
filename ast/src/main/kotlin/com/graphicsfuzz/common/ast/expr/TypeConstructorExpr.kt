@@ -24,6 +24,8 @@ class TypeConstructorExpr(var typename: String, argsData: List<Expr>) : Expr() {
 
   private val args: MutableList<Expr> = argsData.toMutableList()
 
+  constructor(typename: String, vararg arg: Expr): this(typename, arg.asList())
+
   init {
     checkNoTopLevelCommaExpression(argsData);
   }
@@ -86,6 +88,3 @@ class TypeConstructorExpr(var typename: String, argsData: List<Expr>) : Expr() {
   override fun getNumChildren(): Int = args.size
 
 }
-
-fun createTypeConstructorExpr(typename: String, vararg arg: Expr): TypeConstructorExpr
-    = TypeConstructorExpr(typename, arg.asList())

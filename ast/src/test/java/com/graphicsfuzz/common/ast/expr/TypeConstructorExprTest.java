@@ -28,7 +28,7 @@ public class TypeConstructorExprTest {
 
   @Test
   public void getTypename() throws Exception {
-    TypeConstructorExpr e = TypeConstructorExprKt.createTypeConstructorExpr("foo",
+    TypeConstructorExpr e = new TypeConstructorExpr("foo",
         new BinaryExpr(new IntConstantExpr("2"), new IntConstantExpr("1"), BinOp.MOD),
         new BoolConstantExpr(true));
     assertEquals("foo", e.getTypename());
@@ -113,14 +113,14 @@ public class TypeConstructorExprTest {
 
   @Test(expected = IndexOutOfBoundsException.class)
   public void getChildBad() {
-    TypeConstructorExpr tce = TypeConstructorExprKt.createTypeConstructorExpr("hi",
+    TypeConstructorExpr tce = new TypeConstructorExpr("hi",
         new IntConstantExpr("5"));
     tce.getChild(1);
   }
 
   @Test
   public void setChild() {
-    TypeConstructorExpr tce = TypeConstructorExprKt.createTypeConstructorExpr("hi",
+    TypeConstructorExpr tce = new TypeConstructorExpr("hi",
         new IntConstantExpr("5"));
     IntConstantExpr expr = new IntConstantExpr("6");
     tce.setChild(0, expr);
@@ -129,7 +129,7 @@ public class TypeConstructorExprTest {
 
   @Test(expected = IndexOutOfBoundsException.class)
   public void setChildBad() {
-    TypeConstructorExpr tce = TypeConstructorExprKt.createTypeConstructorExpr("hi",
+    TypeConstructorExpr tce = new TypeConstructorExpr("hi",
         new IntConstantExpr("5"));
     tce.setChild(1, new IntConstantExpr("6"));
   }

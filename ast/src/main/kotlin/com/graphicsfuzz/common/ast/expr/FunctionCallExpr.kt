@@ -24,6 +24,8 @@ class FunctionCallExpr(var callee: String, argsData: List<Expr>) : Expr() {
 
   private val args: MutableList<Expr> = argsData.toMutableList()
 
+  constructor(callee: String, vararg arg: Expr): this(callee, arg.asList())
+
   init {
     checkNoTopLevelCommaExpression(argsData)
   }
@@ -70,6 +72,3 @@ class FunctionCallExpr(var callee: String, argsData: List<Expr>) : Expr() {
   override fun getNumChildren(): Int = getNumArgs()
 
 }
-
-fun createFunctionCallExpr(callee: String, vararg arg: Expr): FunctionCallExpr
-    = FunctionCallExpr(callee, arg.asList())

@@ -34,7 +34,7 @@ public class ArrayConstructorExprTest {
 
   @Before
   public void setup() {
-    TypeConstructorExpr temp = TypeConstructorExprKt.createTypeConstructorExpr(
+    TypeConstructorExpr temp = new TypeConstructorExpr(
         "vec4", new FloatConstantExpr("0.0"));
     arrayConstructor = new ArrayConstructorExpr(new ArrayType(
         BasicType.VEC4,

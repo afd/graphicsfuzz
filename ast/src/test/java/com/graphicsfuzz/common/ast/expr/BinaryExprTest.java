@@ -38,7 +38,7 @@ public class BinaryExprTest {
   public void getRhs() throws Exception {
     FloatConstantExpr fce = new FloatConstantExpr("10.2");
     BinaryExpr be = new BinaryExpr(
-        TypeConstructorExprKt.createTypeConstructorExpr("float", new IntConstantExpr("1")),
+        new TypeConstructorExpr("float", new IntConstantExpr("1")),
         fce,
         BinOp.MOD);
     assertEquals(fce, be.getRhs());

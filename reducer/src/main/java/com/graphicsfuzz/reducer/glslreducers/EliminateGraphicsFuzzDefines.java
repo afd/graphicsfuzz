@@ -23,7 +23,6 @@ import com.graphicsfuzz.common.ast.expr.BinaryExpr;
 import com.graphicsfuzz.common.ast.expr.ConstantExpr;
 import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.expr.FunctionCallExpr;
-import com.graphicsfuzz.common.ast.expr.FunctionCallExprKt;
 import com.graphicsfuzz.common.ast.expr.IntConstantExpr;
 import com.graphicsfuzz.common.ast.expr.ParenExpr;
 import com.graphicsfuzz.common.ast.expr.TernaryExpr;
@@ -135,7 +134,7 @@ public class EliminateGraphicsFuzzDefines extends StandardVisitor {
     final Expr sizeMinusOne = new BinaryExpr(functionCallExpr.getChild(1),
         one,
         BinOp.SUB);
-    final Expr clamp = FunctionCallExprKt.createFunctionCallExpr("clamp",
+    final Expr clamp = new FunctionCallExpr("clamp",
         functionCallExpr.getChild(0),
         zero,
         sizeMinusOne);

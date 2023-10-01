@@ -23,13 +23,11 @@ import com.graphicsfuzz.common.ast.expr.BoolConstantExpr;
 import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.expr.FloatConstantExpr;
 import com.graphicsfuzz.common.ast.expr.FunctionCallExpr;
-import com.graphicsfuzz.common.ast.expr.FunctionCallExprKt;
 import com.graphicsfuzz.common.ast.expr.IntConstantExpr;
 import com.graphicsfuzz.common.ast.expr.MemberLookupExpr;
 import com.graphicsfuzz.common.ast.expr.ParenExpr;
 import com.graphicsfuzz.common.ast.expr.TernaryExpr;
 import com.graphicsfuzz.common.ast.expr.TypeConstructorExpr;
-import com.graphicsfuzz.common.ast.expr.TypeConstructorExprKt;
 import com.graphicsfuzz.common.ast.expr.UIntConstantExpr;
 import com.graphicsfuzz.common.ast.expr.UnOp;
 import com.graphicsfuzz.common.ast.expr.UnaryExpr;
@@ -172,7 +170,7 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(FunctionCallExprKt.createFunctionCallExpr("sqrt",
+    return Optional.of(new FunctionCallExpr("sqrt",
         makeOpaqueZeroOrOne(isZero, type, constContext,
         depth, fuzzer)));
   }
@@ -183,7 +181,7 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(FunctionCallExprKt.createFunctionCallExpr("abs",
+    return Optional.of(new FunctionCallExpr("abs",
         makeOpaqueZeroOrOne(isZero, type, constContext,
         depth, fuzzer)));
   }
@@ -290,7 +288,7 @@ public final class OpaqueExpressionGenerator {
     }
     assert matrixConstructorArgs.size() == matrixDimension * matrixDimension;
     return Optional.of(
-        FunctionCallExprKt.createFunctionCallExpr("determinant",
+        new FunctionCallExpr("determinant",
             new FunctionCallExpr(
                 BasicType.makeMatrixType(matrixDimension, matrixDimension).toString(),
                 matrixConstructorArgs)));
@@ -344,7 +342,7 @@ public final class OpaqueExpressionGenerator {
       }
     }
     assert firstVectorArgs.size() == vectorWidth && secondVectorArgs.size() == vectorWidth;
-    dotProductExpr = FunctionCallExprKt.createFunctionCallExpr("dot",
+    dotProductExpr = new FunctionCallExpr("dot",
         new TypeConstructorExpr(
             BasicType.makeVectorType(type, vectorWidth).toString(), firstVectorArgs),
         new TypeConstructorExpr(
@@ -402,7 +400,7 @@ public final class OpaqueExpressionGenerator {
     final int shiftValueConstant = generator.nextInt(
         isZero ? minBitsForLowpInt : minBitsForLowpUnsignedInt);
     final Expr shiftValueConstructor =
-        TypeConstructorExprKt.createTypeConstructorExpr(type.toString(),
+        new TypeConstructorExpr(type.toString(),
             BasicType.allUnsignedTypes().contains(type)
             ? new UIntConstantExpr(String.valueOf(shiftValueConstant) + 'u')
             : new IntConstantExpr(String.valueOf(shiftValueConstant)));
@@ -536,7 +534,7 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(FunctionCallExprKt.createFunctionCallExpr("sin",
+    return Optional.of(new FunctionCallExpr("sin",
         makeOpaqueZero(type, constContext, depth,
         fuzzer)));
   }
@@ -548,7 +546,7 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(FunctionCallExprKt.createFunctionCallExpr("log",
+    return Optional.of(new FunctionCallExpr("log",
         makeOpaqueOne(type, constContext, depth, fuzzer)));
   }
 
@@ -559,7 +557,7 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(FunctionCallExprKt.createFunctionCallExpr("tan",
+    return Optional.of(new FunctionCallExpr("tan",
         makeOpaqueZero(type, constContext, depth,
         fuzzer)));
   }
@@ -578,7 +576,7 @@ public final class OpaqueExpressionGenerator {
     final BasicType vectorType =
         BasicType.allGenTypes().get(generator.nextInt(BasicType.allGenTypes().size()));
 
-    return Optional.of(FunctionCallExprKt.createFunctionCallExpr("length",
+    return Optional.of(new FunctionCallExpr("length",
         makeOpaqueZero(vectorType, constContext,
         depth,
         fuzzer)));
@@ -628,7 +626,7 @@ public final class OpaqueExpressionGenerator {
               fuzzedFloatLiteral.clone(), type.getElementType(), constContext, depth, fuzzer));
     }
     return Optional.of(
-        FunctionCallExprKt.createFunctionCallExpr("cross",
+        new FunctionCallExpr("cross",
             new TypeConstructorExpr(type.toString(), firstVec3ConstructorArgs),
             new TypeConstructorExpr(type.toString(), secondVec3ConstructorArgs)));
   }
@@ -640,7 +638,7 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(FunctionCallExprKt.createFunctionCallExpr("exp",
+    return Optional.of(new FunctionCallExpr("exp",
         makeOpaqueZero(type, constContext, depth,
         fuzzer)));
   }
@@ -652,7 +650,7 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(FunctionCallExprKt.createFunctionCallExpr("cos",
+    return Optional.of(new FunctionCallExpr("cos",
         makeOpaqueZero(type, constContext, depth,
         fuzzer)));
   }
@@ -676,9 +674,9 @@ public final class OpaqueExpressionGenerator {
     // We create a vector of ones and normalize it, rounding the result to guard against the case
     // where round-off leads to a result that is not quite one.  Note that we could be more general
     // here and normalize any non-zero vector.
-    return Optional.of(FunctionCallExprKt.createFunctionCallExpr("round",
-        FunctionCallExprKt.createFunctionCallExpr("length",
-            FunctionCallExprKt.createFunctionCallExpr("normalize",
+    return Optional.of(new FunctionCallExpr("round",
+        new FunctionCallExpr("length",
+            new FunctionCallExpr("normalize",
                 makeOpaqueZeroOrOne(false, vectorType, constContext, depth, fuzzer)))));
   }
 
@@ -787,7 +785,7 @@ public final class OpaqueExpressionGenerator {
                                         final int depth, Fuzzer fuzzer) {
     assert BasicType.allSquareMatrixTypes().contains(type);
     if (isTooDeep(depth)) {
-      return TypeConstructorExprKt.createTypeConstructorExpr(type.toString(),
+      return new TypeConstructorExpr(type.toString(),
           makeRegularOne(BasicType.FLOAT));
     }
     final int newDepth = depth + 1;
@@ -807,7 +805,7 @@ public final class OpaqueExpressionGenerator {
           if (constContext || !generationParams.getInjectionSwitchIsAvailable()) {
             continue;
           }
-          return TypeConstructorExprKt.createTypeConstructorExpr(type.toString(), oneConstructor(
+          return new TypeConstructorExpr(type.toString(), oneConstructor(
               injectionSwitch("y"), BasicType.FLOAT));
         default:
           throw new RuntimeException();
@@ -902,7 +900,7 @@ public final class OpaqueExpressionGenerator {
   }
 
   public Expr makeDeadCondition(Fuzzer fuzzer) {
-    return FunctionCallExprKt.createFunctionCallExpr(Constants.GLF_DEAD,
+    return new FunctionCallExpr(Constants.GLF_DEAD,
         makeOpaqueBoolean(false, BasicType.BOOL, false, 0, fuzzer));
   }
 
@@ -1273,7 +1271,7 @@ public final class OpaqueExpressionGenerator {
       final Expr exprWithParenthesesIfNeeded = addParenthesesIfCommaExpr(expr);
       return identityConstructor(
           expr,
-          FunctionCallExprKt.createFunctionCallExpr("min",
+          new FunctionCallExpr("min",
               applyIdentityFunction(exprWithParenthesesIfNeeded.clone(), type, constContext, depth,
                   fuzzer),
               applyIdentityFunction(exprWithParenthesesIfNeeded.clone(), type, constContext, depth,
@@ -1298,7 +1296,7 @@ public final class OpaqueExpressionGenerator {
       final Expr exprWithParenthesesIfNeeded = addParenthesesIfCommaExpr(expr);
       return identityConstructor(
           expr,
-          FunctionCallExprKt.createFunctionCallExpr("max",
+          new FunctionCallExpr("max",
               applyIdentityFunction(exprWithParenthesesIfNeeded.clone(), type, constContext, depth,
                   fuzzer),
               applyIdentityFunction(exprWithParenthesesIfNeeded.clone(), type, constContext, depth,
@@ -1323,7 +1321,7 @@ public final class OpaqueExpressionGenerator {
       final Expr exprWithParenthesesIfNeeded = addParenthesesIfCommaExpr(expr);
       return identityConstructor(
           expr,
-          FunctionCallExprKt.createFunctionCallExpr("clamp",
+          new FunctionCallExpr("clamp",
               applyIdentityFunction(exprWithParenthesesIfNeeded.clone(), type, constContext, depth,
                   fuzzer),
               applyIdentityFunction(exprWithParenthesesIfNeeded.clone(), type, constContext, depth,
@@ -1376,7 +1374,7 @@ public final class OpaqueExpressionGenerator {
       }
       return identityConstructor(
           expr,
-          FunctionCallExprKt.createFunctionCallExpr("mix",
+          new FunctionCallExpr("mix",
               new TypeConstructorExpr(type.toString(), xElements),
               new TypeConstructorExpr(type.toString(), yElements),
               new TypeConstructorExpr(
@@ -1542,7 +1540,7 @@ public final class OpaqueExpressionGenerator {
       return identityConstructor(
           expr,
           applyIdentityFunction(
-              TypeConstructorExprKt.createTypeConstructorExpr(
+              new TypeConstructorExpr(
                   type.toString(),
                   applyIdentityFunction(
                       new TypeConstructorExpr(
@@ -1568,9 +1566,9 @@ public final class OpaqueExpressionGenerator {
       assert type.isMatrix();
       return identityConstructor(
           expr,
-          FunctionCallExprKt.createFunctionCallExpr("transpose",
+          new FunctionCallExpr("transpose",
               applyIdentityFunction(
-                  FunctionCallExprKt.createFunctionCallExpr("transpose",
+                  new FunctionCallExpr("transpose",
                       applyIdentityFunction(expr.clone(), type, constContext, depth, fuzzer)),
                   type.transposedMatrixType(), constContext, depth, fuzzer)));
     }

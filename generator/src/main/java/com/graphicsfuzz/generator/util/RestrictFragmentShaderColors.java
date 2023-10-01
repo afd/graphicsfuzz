@@ -23,7 +23,6 @@ import com.graphicsfuzz.common.ast.expr.BinaryExpr;
 import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.expr.FloatConstantExpr;
 import com.graphicsfuzz.common.ast.expr.FunctionCallExpr;
-import com.graphicsfuzz.common.ast.expr.FunctionCallExprKt;
 import com.graphicsfuzz.common.ast.expr.MemberLookupExpr;
 import com.graphicsfuzz.common.ast.expr.ParenExpr;
 import com.graphicsfuzz.common.ast.expr.TypeConstructorExpr;
@@ -263,11 +262,11 @@ public class RestrictFragmentShaderColors {
   }
 
   public Expr ifNanOrInfThenZeroElse(BasicType basicType, Expr expr, Scope scope) {
-    final FunctionCallExpr isNan = FunctionCallExprKt.createFunctionCallExpr("isnan", expr.clone());
-    final FunctionCallExpr isInf = FunctionCallExprKt.createFunctionCallExpr("isinf", expr.clone());
-    final FunctionCallExpr zeroIfNan = FunctionCallExprKt.createFunctionCallExpr("mix", expr,
+    final FunctionCallExpr isNan = new FunctionCallExpr("isnan", expr.clone());
+    final FunctionCallExpr isInf = new FunctionCallExpr("isinf", expr.clone());
+    final FunctionCallExpr zeroIfNan = new FunctionCallExpr("mix", expr,
         opaqueZero(scope, basicType), isNan);
-    final FunctionCallExpr zeroIfInf = FunctionCallExprKt.createFunctionCallExpr("mix", zeroIfNan,
+    final FunctionCallExpr zeroIfInf = new FunctionCallExpr("mix", zeroIfNan,
         opaqueZero(scope, basicType),
         isInf);
     return zeroIfInf;
