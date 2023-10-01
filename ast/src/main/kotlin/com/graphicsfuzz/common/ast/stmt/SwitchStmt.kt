@@ -20,48 +20,28 @@ import com.graphicsfuzz.common.ast.IAstNode;
 import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public class SwitchStmt extends Stmt {
+class SwitchStmt(private var expr: Expr, private var body: BlockStmt) : Stmt() {
 
-  private Expr expr;
-  private BlockStmt body;
+  fun getExpr(): Expr = expr
 
-  public SwitchStmt(Expr expr, BlockStmt body) {
-    this.expr = expr;
-    this.body = body;
-  }
+  fun getBody(): BlockStmt = body
 
-  public Expr getExpr() {
-    return expr;
-  }
+  override fun hasChild(candidateChild: IAstNode): Boolean = candidateChild === expr || candidateChild === body
 
-  public BlockStmt getBody() {
-    return body;
-  }
-
-  @Override
-  public boolean hasChild(IAstNode candidateChild) {
-    return candidateChild == expr || candidateChild == body;
-  }
-
-  @Override
-  public void replaceChild(IAstNode child, IAstNode newChild) {
-    if (child == expr) {
-      expr = (Expr) newChild;
-    } else if (child == body) {
-      body = (BlockStmt) newChild;
+  override fun replaceChild(child: IAstNode, newChild: IAstNode) {
+    if (child === expr) {
+      expr = newChild as Expr
+    } else if (child === body) {
+      body = newChild as BlockStmt
     } else {
-      throw new IllegalArgumentException();
+      throw IllegalArgumentException()
     }
   }
 
-  @Override
-  public void accept(IAstVisitor visitor) {
+  override fun accept(visitor: IAstVisitor) {
     visitor.visitSwitchStmt(this);
   }
 
-  @Override
-  public Stmt clone() {
-    return new SwitchStmt(expr.clone(), body.clone());
-  }
+  override fun clone(): Stmt = SwitchStmt(expr.clone(), body.clone())
 
 }

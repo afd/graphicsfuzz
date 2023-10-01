@@ -19,31 +19,11 @@ package com.graphicsfuzz.common.ast.stmt;
 import com.graphicsfuzz.common.ast.decl.Declaration;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public final class ExtensionStatement extends Declaration {
+class ExtensionStatement(val extensionName: String, val extensionStatus: String) : Declaration() {
 
-  final String extensionName;
-  final String extensionStatus;
-
-  public ExtensionStatement(String extensionName, String extensionStatus) {
-    this.extensionName = extensionName;
-    this.extensionStatus = extensionStatus;
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitExtensionStatement(this)
   }
 
-  public String getExtensionName() {
-    return extensionName;
-  }
-
-  public String getExtensionStatus() {
-    return extensionStatus;
-  }
-
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitExtensionStatement(this);
-  }
-
-  @Override
-  public ExtensionStatement clone() {
-    return new ExtensionStatement(extensionName, extensionStatus);
-  }
+  override fun clone(): ExtensionStatement = ExtensionStatement(extensionName, extensionStatus)
 }
