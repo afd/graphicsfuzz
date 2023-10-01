@@ -19,25 +19,14 @@ package com.graphicsfuzz.common.ast.stmt;
 import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public class WhileStmt extends LoopStmt {
+class WhileStmt(condition: Expr, body: Stmt) : LoopStmt(condition, body) {
 
-  public WhileStmt(Expr condition, Stmt body) {
-    super(condition, body);
+  override fun hasCondition() = true
+
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitWhileStmt(this)
   }
 
-  @Override
-  public boolean hasCondition() {
-    return true;
-  }
-
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitWhileStmt(this);
-  }
-
-  @Override
-  public WhileStmt clone() {
-    return new WhileStmt(getCondition().clone(), getBody().clone());
-  }
+  override fun clone(): WhileStmt = WhileStmt((getCondition() as Expr).clone(), body.clone())
 
 }

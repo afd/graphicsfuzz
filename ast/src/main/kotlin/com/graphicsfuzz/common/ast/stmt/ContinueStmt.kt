@@ -18,16 +18,12 @@ package com.graphicsfuzz.common.ast.stmt;
 
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public final class ContinueStmt extends Stmt {
+class ContinueStmt : Stmt() {
 
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitContinueStmt(this);
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitContinueStmt(this)
   }
 
-  @Override
-  public ContinueStmt clone() {
-    return new ContinueStmt();
-  }
+  override fun clone(): ContinueStmt = ContinueStmt()
 
 }

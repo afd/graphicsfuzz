@@ -16,42 +16,17 @@
 
 package com.graphicsfuzz.common.ast.stmt;
 
-import com.graphicsfuzz.common.ast.ChildDoesNotExistException;
-import com.graphicsfuzz.common.ast.IAstNode;
 import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public class ExprCaseLabel extends CaseLabel {
+class DoStmt(body: Stmt, condition: Expr) : LoopStmt(condition, body) {
 
-  private Expr expr;
+  override fun hasCondition(): Boolean = true
 
-  public ExprCaseLabel(Expr expr) {
-    this.expr = expr;
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitDoStmt(this)
   }
 
-  public Expr getExpr() {
-    return expr;
-  }
-
-  @Override
-  public void replaceChild(IAstNode child, IAstNode newChild) {
-    if (child != expr) {
-      throw new ChildDoesNotExistException(child, this);
-    }
-    if (!(newChild instanceof Expr)) {
-      throw new IllegalArgumentException();
-    }
-    expr = (Expr) newChild;
-  }
-
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitExprCaseLabel(this);
-  }
-
-  @Override
-  public ExprCaseLabel clone() {
-    return new ExprCaseLabel(expr.clone());
-  }
+  override fun clone(): DoStmt = DoStmt(body.clone(), (getCondition() as Expr).clone())
 
 }

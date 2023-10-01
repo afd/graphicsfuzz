@@ -18,16 +18,12 @@ package com.graphicsfuzz.common.ast.stmt;
 
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public class DiscardStmt extends Stmt {
+class DefaultCaseLabel : CaseLabel() {
 
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitDiscardStmt(this);
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitDefaultCaseLabel(this)
   }
 
-  @Override
-  public DiscardStmt clone() {
-    return new DiscardStmt();
-  }
+  override fun clone(): DefaultCaseLabel = DefaultCaseLabel()
 
 }
