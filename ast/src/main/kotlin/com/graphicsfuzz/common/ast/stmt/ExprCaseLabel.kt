@@ -16,18 +16,29 @@
 
 package com.graphicsfuzz.common.ast.stmt;
 
+import com.graphicsfuzz.common.ast.ChildDoesNotExistException;
+import com.graphicsfuzz.common.ast.IAstNode;
+import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public final class BreakStmt extends Stmt {
+class ExprCaseLabel(private var expr: Expr) : CaseLabel() {
 
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitBreakStmt(this);
+  fun getExpr() = expr
+
+  override fun replaceChild(child: IAstNode, newChild: IAstNode) {
+    if (child !== expr) {
+      throw ChildDoesNotExistException(child, this)
+    }
+    if (newChild !is Expr) {
+      throw IllegalArgumentException()
+    }
+    expr = newChild;
   }
 
-  @Override
-  public BreakStmt clone() {
-    return new BreakStmt();
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitExprCaseLabel(this)
   }
+
+  override fun clone(): ExprCaseLabel = ExprCaseLabel(expr.clone())
 
 }

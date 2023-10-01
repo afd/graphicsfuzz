@@ -16,28 +16,14 @@
 
 package com.graphicsfuzz.common.ast.stmt;
 
-import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public class DoStmt extends LoopStmt {
+class NullStmt : Stmt() {
 
-  public DoStmt(Stmt body, Expr condition) {
-    super(condition, body);
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitNullStmt(this)
   }
 
-  @Override
-  public boolean hasCondition() {
-    return true;
-  }
-
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitDoStmt(this);
-  }
-
-  @Override
-  public DoStmt clone() {
-    return new DoStmt(getBody().clone(), getCondition().clone());
-  }
+  override fun clone(): NullStmt = NullStmt()
 
 }
