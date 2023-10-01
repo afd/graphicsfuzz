@@ -20,43 +20,20 @@ import com.graphicsfuzz.common.ast.IAstNode;
 import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public class ExprStmt extends Stmt {
+class ExprStmt(var expr: Expr): Stmt() {
 
-  private Expr expr;
-
-  public ExprStmt(Expr expr) {
-    assert expr != null;
-    this.expr = expr;
+  override fun replaceChild(child: IAstNode, newChild: IAstNode) {
+    require(child === expr)
+    require(newChild is Expr)
+    expr = newChild
   }
 
-  public Expr getExpr() {
-    return expr;
+  override fun hasChild(candidateChild: IAstNode): Boolean = candidateChild === expr
+
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitExprStmt(this)
   }
 
-  public void setExpr(Expr expr) {
-    this.expr = expr;
-  }
-
-  @Override
-  public void replaceChild(IAstNode child, IAstNode newChild) {
-    assert child == getExpr();
-    assert newChild instanceof Expr;
-    expr = (Expr) newChild;
-  }
-
-  @Override
-  public boolean hasChild(IAstNode candidateChild) {
-    return candidateChild == expr;
-  }
-
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitExprStmt(this);
-  }
-
-  @Override
-  public ExprStmt clone() {
-    return new ExprStmt(expr.clone());
-  }
+  override fun clone(): ExprStmt = ExprStmt(expr.clone())
 
 }
