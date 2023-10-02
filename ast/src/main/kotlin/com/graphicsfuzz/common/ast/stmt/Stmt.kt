@@ -18,9 +18,8 @@ package com.graphicsfuzz.common.ast.stmt;
 
 import com.graphicsfuzz.common.ast.IAstNode;
 
-public abstract class Stmt implements IAstNode {
+abstract class Stmt: IAstNode {
 
-  @Override
-  public abstract Stmt clone();
+  abstract override fun clone(): Stmt
 
 }

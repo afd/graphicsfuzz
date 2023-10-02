@@ -28,7 +28,7 @@ class PragmaStatement private constructor() : Declaration() {
   override fun clone(): PragmaStatement = this
 
   override fun getText(): String {
-    return "#pragma " +
+    return "#pragma " + (
       if (this === OPTIMIZE_ON) {
         "optimize(on)"
       } else if (this === OPTIMIZE_OFF) {
@@ -40,7 +40,7 @@ class PragmaStatement private constructor() : Declaration() {
       } else {
         assert(this === INVARIANT_ALL)
         "invariant(all)"
-      } + "\n"
+      }) + "\n"
   }
 
   companion object {
