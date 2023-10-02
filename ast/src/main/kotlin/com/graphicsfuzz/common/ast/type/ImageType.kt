@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.type;
+package com.graphicsfuzz.common.ast.type
 
-import com.graphicsfuzz.common.ast.expr.Expr;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
-import com.graphicsfuzz.common.typing.Scope;
+import com.graphicsfuzz.common.ast.expr.Expr
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
+import com.graphicsfuzz.common.typing.Scope
 
 class ImageType private constructor() : BuiltinType() {
 
@@ -68,7 +68,7 @@ class ImageType private constructor() : BuiltinType() {
   override fun getCanonicalConstant(scope: Scope): Expr {
     // Sanity-check that there is indeed no canonical constant.
     assert(!hasCanonicalConstant(scope))
-    throw RuntimeException("No canonical constant for " + this)
+    throw RuntimeException("No canonical constant for $this")
   }
 
   override fun accept(visitor: IAstVisitor) {

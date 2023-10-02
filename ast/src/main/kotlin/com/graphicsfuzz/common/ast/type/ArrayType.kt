@@ -14,25 +14,25 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.type;
+package com.graphicsfuzz.common.ast.type
 
-import com.graphicsfuzz.common.ast.decl.ArrayInfo;
-import com.graphicsfuzz.common.ast.expr.ArrayConstructorExpr;
-import com.graphicsfuzz.common.ast.expr.Expr;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
-import com.graphicsfuzz.common.typing.Scope;
-import java.util.Objects;
+import com.graphicsfuzz.common.ast.decl.ArrayInfo
+import com.graphicsfuzz.common.ast.expr.ArrayConstructorExpr
+import com.graphicsfuzz.common.ast.expr.Expr
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
+import com.graphicsfuzz.common.typing.Scope
+import java.util.Objects
 
 class ArrayType(val baseType: Type, val arrayInfo: ArrayInfo) : UnqualifiedType() {
 
   init {
     if (arrayInfo.getDimensionality() != 1) {
       throw IllegalArgumentException("Array types should be 1-dimensional: multi-dimensional "
-          + "arrays are typed via arrays with arrays as their base type.");
+          + "arrays are typed via arrays with arrays as their base type.")
     }
     if (baseType is QualifiedType) {
       throw IllegalArgumentException("Qualifiers should be applied to an array type, not to "
-          + "the array's base type.");
+          + "the array's base type.")
     }
   }
 
@@ -42,13 +42,13 @@ class ArrayType(val baseType: Type, val arrayInfo: ArrayInfo) : UnqualifiedType(
 
   override fun equals(that: Any?): Boolean {
     if (this === that) {
-      return true;
+      return true
     }
     if (that !is ArrayType) {
       return false
     }
-    if (!this.baseType.equals(that.baseType)) {
-      return false;
+    if (this.baseType != that.baseType) {
+      return false
     }
     assert(this.arrayInfo.getDimensionality() == 1)
     assert(that.arrayInfo.getDimensionality() == 1)
@@ -60,7 +60,7 @@ class ArrayType(val baseType: Type, val arrayInfo: ArrayInfo) : UnqualifiedType(
         .equals(that.arrayInfo.getConstantSize(0))) {
       return false
     }
-    return true;
+    return true
   }
 
   override fun hashCode(): Int = Objects.hash(baseType,
