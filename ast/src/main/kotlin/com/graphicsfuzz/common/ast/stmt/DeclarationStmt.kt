@@ -19,26 +19,12 @@ package com.graphicsfuzz.common.ast.stmt;
 import com.graphicsfuzz.common.ast.decl.VariablesDeclaration;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 
-public class DeclarationStmt extends Stmt {
+class DeclarationStmt(val variablesDeclaration: VariablesDeclaration) : Stmt() {
 
-  private VariablesDeclaration variablesDeclaration;
-
-  public DeclarationStmt(VariablesDeclaration variablesDeclaration) {
-    this.variablesDeclaration = variablesDeclaration;
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitDeclarationStmt(this)
   }
 
-  public VariablesDeclaration getVariablesDeclaration() {
-    return variablesDeclaration;
-  }
-
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitDeclarationStmt(this);
-  }
-
-  @Override
-  public DeclarationStmt clone() {
-    return new DeclarationStmt(variablesDeclaration.clone());
-  }
+  override fun clone(): DeclarationStmt = DeclarationStmt(variablesDeclaration.clone())
 
 }
