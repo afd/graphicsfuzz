@@ -20,33 +20,24 @@ import com.graphicsfuzz.common.ast.expr.Expr;
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
 import com.graphicsfuzz.common.typing.Scope;
 
-public class VoidType extends BuiltinType {
+class AtomicIntType private constructor(): BuiltinType() {
 
-  private VoidType() {
-    // VoidType is a singleton
-  }
+  override fun toString(): String = "atomic_uint"
 
-  public static final VoidType VOID = new VoidType();
+  override fun hasCanonicalConstant(unused: Scope): Boolean = false
 
-  @Override
-  public String toString() {
-    return "void";
-  }
-
-  @Override
-  public boolean hasCanonicalConstant(Scope unused) {
-    return false;
-  }
-
-  @Override
-  public Expr getCanonicalConstant(Scope scope) {
+  override fun getCanonicalConstant(scope: Scope): Expr {
     // Sanity-check that there is indeed no canonical constant.
-    assert !hasCanonicalConstant(scope);
-    throw new RuntimeException("No canonical constant for " + this);
+    assert(!hasCanonicalConstant(scope))
+    throw RuntimeException("No canonical constant for " + this)
   }
 
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitVoidType(this);
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitAtomicIntType(this)
   }
+
+  companion object {
+    @JvmField val ATOMIC_UINT: AtomicIntType = AtomicIntType()
+  }
+
 }
