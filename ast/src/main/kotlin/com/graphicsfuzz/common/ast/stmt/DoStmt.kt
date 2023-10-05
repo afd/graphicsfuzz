@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.expr.Expr;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.expr.Expr
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class DoStmt(body: Stmt, condition: Expr) : LoopStmt(condition, body) {
 

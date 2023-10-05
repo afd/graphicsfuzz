@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.decl.Declaration;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.decl.Declaration
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class PragmaStatement private constructor() : Declaration() {
 

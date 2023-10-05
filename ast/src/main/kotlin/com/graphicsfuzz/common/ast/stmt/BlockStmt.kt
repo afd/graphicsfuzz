@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.ChildDoesNotExistException;
+import com.graphicsfuzz.common.ast.ChildDoesNotExistException
 import com.graphicsfuzz.common.ast.IAstNode
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor
-import java.util.Collections;
+import java.util.Collections
 
 /**
  * Constructor creates a block statement from the given list of statements.
