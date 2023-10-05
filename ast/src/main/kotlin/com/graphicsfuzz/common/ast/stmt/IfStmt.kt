@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.expr.Expr;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.expr.Expr
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class IfStmt(var condition: Expr, var thenStmt: Stmt, private var elseStmt: Stmt?) : Stmt() {
 
@@ -50,13 +50,13 @@ class IfStmt(var condition: Expr, var thenStmt: Stmt, private var elseStmt: Stmt
       elseStmt = newChild
       return
     }
-    throw IllegalArgumentException();
+    throw IllegalArgumentException()
   }
 
   override fun hasChild(candidateChild: IAstNode): Boolean {
     return condition === candidateChild
           || thenStmt === candidateChild
-          || elseStmt === candidateChild;
+          || elseStmt === candidateChild
   }
 
   override fun clone(): IfStmt = IfStmt(condition.clone(), thenStmt.clone(),

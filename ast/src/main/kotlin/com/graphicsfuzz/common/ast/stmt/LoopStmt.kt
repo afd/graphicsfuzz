@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.expr.Expr;
-import com.graphicsfuzz.common.ast.visitors.StandardVisitor;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.expr.Expr
+import com.graphicsfuzz.common.ast.visitors.StandardVisitor
 
 abstract class LoopStmt(private var condition: Expr?, var body: Stmt) : Stmt() {
 
@@ -54,18 +54,16 @@ abstract class LoopStmt(private var condition: Expr?, var body: Stmt) : Stmt() {
    */
   fun containsDirectBreakOrContinueStmt(): Boolean = ContainsDirectBreakOrContinueStmt().check()
 
-  private class FoundBreakOrContinueStmtException : RuntimeException() {
-
-  }
+  private class FoundBreakOrContinueStmtException : RuntimeException()
 
   private inner class ContainsDirectBreakOrContinueStmt : StandardVisitor() {
 
-    private var nestingDepth: Int = 0;
+    private var nestingDepth: Int = 0
 
     fun check(): Boolean {
       return try {
         visit(body)
-        false;
+        false
       } catch (exception: FoundBreakOrContinueStmtException) {
         true
       }
@@ -75,7 +73,7 @@ abstract class LoopStmt(private var condition: Expr?, var body: Stmt) : Stmt() {
       if (node is LoopStmt) {
         nestingDepth++
       }
-      super.visit(node);
+      super.visit(node)
       if (node is LoopStmt) {
         nestingDepth--
       }

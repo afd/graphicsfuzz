@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.ChildDoesNotExistException;
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.expr.Expr;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.ChildDoesNotExistException
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.expr.Expr
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class ExprCaseLabel(private var expr: Expr) : CaseLabel() {
 
@@ -32,7 +32,7 @@ class ExprCaseLabel(private var expr: Expr) : CaseLabel() {
     if (newChild !is Expr) {
       throw IllegalArgumentException()
     }
-    expr = newChild;
+    expr = newChild
   }
 
   override fun accept(visitor: IAstVisitor) {

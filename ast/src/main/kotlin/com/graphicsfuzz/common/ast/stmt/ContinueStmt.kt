@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class ContinueStmt : Stmt() {
 
