@@ -13,20 +13,6 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.graphicsfuzz.common.ast.type
 
-package com.graphicsfuzz.common.ast.type;
-
-public class LocationLayoutQualifier implements LayoutQualifier {
-
-  private final int locationValue;
-
-  public LocationLayoutQualifier(int locationValue) {
-    this.locationValue = locationValue;
-  }
-
-  @Override
-  public String toString() {
-    return "location = " + locationValue;
-  }
-
-}
+interface LayoutQualifier

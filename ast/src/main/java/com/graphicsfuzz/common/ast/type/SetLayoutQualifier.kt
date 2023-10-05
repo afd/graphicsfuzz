@@ -13,20 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.graphicsfuzz.common.ast.type
 
-package com.graphicsfuzz.common.ast.type;
-
-public class SetLayoutQualifier implements LayoutQualifier {
-
-  private final int setValue;
-
-  public SetLayoutQualifier(int setValue) {
-    this.setValue = setValue;
-  }
-
-  @Override
-  public String toString() {
-    return "set = " + setValue;
-  }
-
+class SetLayoutQualifier(private val setValue: Int) : LayoutQualifier {
+    override fun toString(): String {
+        return "set = $setValue"
+    }
 }

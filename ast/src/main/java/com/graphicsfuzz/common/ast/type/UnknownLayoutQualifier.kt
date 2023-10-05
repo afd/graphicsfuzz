@@ -13,8 +13,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+package com.graphicsfuzz.common.ast.type
 
-package com.graphicsfuzz.common.ast.type;
-
-public interface LayoutQualifier {
+/**
+ * We use this class to represent layout qualifiers that the tool chain does not yet understand;
+ * we just represent them as strings.
+ */
+class UnknownLayoutQualifier(private val contents: String) : LayoutQualifier {
+    override fun toString(): String {
+        return contents
+    }
 }
