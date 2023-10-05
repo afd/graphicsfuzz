@@ -40,24 +40,24 @@ class ArrayType(val baseType: Type, val arrayInfo: ArrayInfo) : UnqualifiedType(
     visitor.visitArrayType(this)
   }
 
-  override fun equals(that: Any?): Boolean {
-    if (this === that) {
+  override fun equals(other: Any?): Boolean {
+    if (this === other) {
       return true
     }
-    if (that !is ArrayType) {
+    if (other !is ArrayType) {
       return false
     }
-    if (this.baseType != that.baseType) {
+    if (this.baseType != other.baseType) {
       return false
     }
     assert(this.arrayInfo.getDimensionality() == 1)
-    assert(that.arrayInfo.getDimensionality() == 1)
-    if (this.arrayInfo.hasConstantSize(0) != that.arrayInfo.hasConstantSize(0)) {
+    assert(other.arrayInfo.getDimensionality() == 1)
+    if (this.arrayInfo.hasConstantSize(0) != other.arrayInfo.hasConstantSize(0)) {
       return false
     }
     if (this.arrayInfo.hasConstantSize(0)
         && !this.arrayInfo.getConstantSize(0)
-        .equals(that.arrayInfo.getConstantSize(0))) {
+        .equals(other.arrayInfo.getConstantSize(0))) {
       return false
     }
     return true
