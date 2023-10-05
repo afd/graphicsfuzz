@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
 abstract class CaseLabel : Stmt()

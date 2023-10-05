@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.expr.Expr;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.expr.Expr
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class ReturnStmt() : Stmt() {
 
@@ -31,10 +31,6 @@ class ReturnStmt() : Stmt() {
   fun getExpr(): Expr {
     require(hasExpr())
     return expr!!
-  }
-
-  fun setExpr(expr: Expr) {
-    this.expr = expr
   }
 
   fun hasExpr(): Boolean = expr != null

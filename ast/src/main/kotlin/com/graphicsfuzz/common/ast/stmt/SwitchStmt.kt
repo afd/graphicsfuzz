@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.expr.Expr;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.expr.Expr
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class SwitchStmt(private var expr: Expr, private var body: BlockStmt) : Stmt() {
 
@@ -39,7 +39,7 @@ class SwitchStmt(private var expr: Expr, private var body: BlockStmt) : Stmt() {
   }
 
   override fun accept(visitor: IAstVisitor) {
-    visitor.visitSwitchStmt(this);
+    visitor.visitSwitchStmt(this)
   }
 
   override fun clone(): Stmt = SwitchStmt(expr.clone(), body.clone())
