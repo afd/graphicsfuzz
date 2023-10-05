@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class VariableIdentifierExpr(var name: String) : Expr() {
 
@@ -30,7 +30,7 @@ class VariableIdentifierExpr(var name: String) : Expr() {
   override fun hasChild(candidateChild: IAstNode): Boolean = false
 
   override fun getChild(index: Int): Expr {
-    throw IndexOutOfBoundsException("VariableIdentifierExpr has no children");
+    throw IndexOutOfBoundsException("VariableIdentifierExpr has no children")
   }
 
   override fun setChild(index: Int, expr: Expr) {

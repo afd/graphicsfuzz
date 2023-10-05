@@ -14,17 +14,17 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class ParenExpr(private var expr: Expr) : Expr() {
 
   fun getExpr(): Expr = expr
 
   override fun accept(visitor: IAstVisitor) {
-    visitor.visitParenExpr(this);
+    visitor.visitParenExpr(this)
   }
 
   override fun clone(): ParenExpr = ParenExpr(expr.clone())
@@ -33,17 +33,17 @@ class ParenExpr(private var expr: Expr) : Expr() {
 
   override fun getChild(index: Int): Expr {
     if (index == 0) {
-      return expr;
+      return expr
     }
-    throw IndexOutOfBoundsException("Index for ParenExpr must be 0");
+    throw IndexOutOfBoundsException("Index for ParenExpr must be 0")
   }
 
   override fun setChild(index: Int, expr: Expr) {
     if (index == 0) {
-      this.expr = expr;
-      return;
+      this.expr = expr
+      return
     }
-    throw IndexOutOfBoundsException("Index for ParenExpr must be 0");
+    throw IndexOutOfBoundsException("Index for ParenExpr must be 0")
   }
 
   override fun getNumChildren(): Int = 1

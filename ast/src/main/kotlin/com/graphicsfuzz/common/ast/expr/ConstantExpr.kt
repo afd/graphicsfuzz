@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
 import com.graphicsfuzz.common.ast.IAstNode
 
@@ -23,7 +23,7 @@ abstract class ConstantExpr: Expr() {
   override fun hasChild(candidateChild: IAstNode): Boolean = false
 
   override fun getChild(index: Int): Expr {
-    throw IndexOutOfBoundsException("ConstExpr has no children");
+    throw IndexOutOfBoundsException("ConstExpr has no children")
   }
 
   override fun setChild(index: Int, expr: Expr) {

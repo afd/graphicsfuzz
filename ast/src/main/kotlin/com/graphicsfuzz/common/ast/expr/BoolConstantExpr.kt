@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class BoolConstantExpr(val isTrue: Boolean): ConstantExpr() {
 
   override fun accept(visitor: IAstVisitor) {
-    visitor.visitBoolConstantExpr(this);
+    visitor.visitBoolConstantExpr(this)
   }
 
   override fun clone(): BoolConstantExpr = BoolConstantExpr(isTrue)

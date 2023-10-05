@@ -14,19 +14,19 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.type.ArrayType;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
-import java.util.Collections;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.type.ArrayType
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
+import java.util.Collections
 
 class ArrayConstructorExpr(val arrayType: ArrayType, argsData: List<Expr>) : Expr() {
 
   private val args: MutableList<Expr> = argsData.toMutableList()
 
   init {
-    assert(arrayType.getArrayInfo().getDimensionality() == 1)
+    assert(arrayType.arrayInfo.getDimensionality() == 1)
   }
 
   fun getArgs(): List<Expr> {
@@ -34,7 +34,7 @@ class ArrayConstructorExpr(val arrayType: ArrayType, argsData: List<Expr>) : Exp
   }
 
   override fun accept(visitor: IAstVisitor) {
-    visitor.visitArrayConstructorExpr(this);
+    visitor.visitArrayConstructorExpr(this)
   }
 
   override fun clone(): ArrayConstructorExpr = ArrayConstructorExpr(
@@ -56,8 +56,8 @@ class ArrayConstructorExpr(val arrayType: ArrayType, argsData: List<Expr>) : Exp
   override fun getNumChildren(): Int = args.size
 
   private fun checkBounds(index: Int) {
-    if (!(index in 0..<getNumChildren())) {
-      throw IndexOutOfBoundsException("No child at index " + index)
+    if (index !in 0..<getNumChildren()) {
+      throw IndexOutOfBoundsException("No child at index $index")
     }
   }
 

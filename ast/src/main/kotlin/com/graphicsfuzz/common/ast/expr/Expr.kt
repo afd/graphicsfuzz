@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.ChildDoesNotExistException;
-import com.graphicsfuzz.common.ast.IAstNode;
+import com.graphicsfuzz.common.ast.ChildDoesNotExistException
+import com.graphicsfuzz.common.ast.IAstNode
 
 abstract class Expr : IAstNode {
 
-  override abstract fun clone(): Expr
+  abstract override fun clone(): Expr
 
   abstract fun getChild(index: Int): Expr
 
@@ -36,13 +36,13 @@ abstract class Expr : IAstNode {
     for (i in 0..<getNumChildren()) {
       if (getChild(i) === child) {
         setChild(i, newChild)
-        return;
+        return
       }
     }
     throw ChildDoesNotExistException(child, this)
   }
 
-  override abstract fun hasChild(candidateChild: IAstNode): Boolean
+  abstract override fun hasChild(candidateChild: IAstNode): Boolean
 
   companion object {
     fun checkNoTopLevelCommaExpression(args: List<Expr>) {

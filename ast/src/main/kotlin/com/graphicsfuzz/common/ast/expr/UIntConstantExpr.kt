@@ -14,27 +14,27 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class UIntConstantExpr(val value: String) : ConstantExpr() {
 
   init {
-    assert(value.endsWith("u"));
+    assert(value.endsWith("u"))
   }
 
   override fun hasChild(candidateChild: IAstNode) = false
 
   fun getNumericValue(): Int {
     if (isOctal()) {
-      return Integer.parseInt(getValueWithoutSuffix(), 8);
+      return Integer.parseInt(getValueWithoutSuffix(), 8)
     }
     if (isHex()) {
-      return Integer.parseInt(getValueWithoutSuffix().substring("0x".length), 16);
+      return Integer.parseInt(getValueWithoutSuffix().substring("0x".length), 16)
     }
-    return Integer.parseInt(getValueWithoutSuffix());
+    return Integer.parseInt(getValueWithoutSuffix())
   }
 
   override fun accept(visitor: IAstVisitor) {

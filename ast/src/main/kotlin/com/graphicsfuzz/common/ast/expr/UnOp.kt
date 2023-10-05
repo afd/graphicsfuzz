@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
 enum class UnOp : Op {
   POST_INC, POST_DEC, PRE_INC, PRE_DEC, PLUS, MINUS, BNEG, LNOT;

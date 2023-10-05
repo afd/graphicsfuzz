@@ -14,11 +14,10 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
-import java.util.Collections;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class LengthExpr(receiver: Expr) : Expr() {
 

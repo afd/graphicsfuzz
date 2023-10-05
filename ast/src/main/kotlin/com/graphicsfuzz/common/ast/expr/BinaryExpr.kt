@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
-import java.util.Arrays;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class BinaryExpr(var lhs: Expr, var rhs: Expr, val op: BinOp) : Expr() {
 
   init {
     if (op != BinOp.COMMA) {
-      checkNoTopLevelCommaExpression(Arrays.asList(lhs, rhs));
+      checkNoTopLevelCommaExpression(listOf(lhs, rhs))
     }
   }
 
@@ -55,7 +54,7 @@ class BinaryExpr(var lhs: Expr, var rhs: Expr, val op: BinOp) : Expr() {
       rhs = expr
       return
     }
-    throw IndexOutOfBoundsException("Index for BinaryExpr must be 0 or 1");
+    throw IndexOutOfBoundsException("Index for BinaryExpr must be 0 or 1")
   }
 
   override fun getNumChildren(): Int = 2

@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
-import java.util.Collections;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class MemberLookupExpr(structure: Expr, var member: String) : Expr() {
 
   var structure: Expr = structure
     set(value) {
       checkNoTopLevelCommaExpression(listOf(value))
-      field = value;
+      field = value
     }
 
   override fun accept(visitor: IAstVisitor) {
@@ -38,9 +37,9 @@ class MemberLookupExpr(structure: Expr, var member: String) : Expr() {
 
   override fun getChild(index: Int): Expr {
     if (index == 0) {
-      return structure;
+      return structure
     }
-    throw IndexOutOfBoundsException("Index for MemberLookupExpr must be 0");
+    throw IndexOutOfBoundsException("Index for MemberLookupExpr must be 0")
   }
 
   override fun setChild(index: Int, expr: Expr) {

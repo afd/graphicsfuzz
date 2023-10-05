@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
 import com.graphicsfuzz.common.ast.IAstNode
 import com.graphicsfuzz.common.ast.visitors.IAstVisitor
-import java.util.Collections;
+import java.util.Collections
 
 class TypeConstructorExpr(var typename: String, argsData: List<Expr>) : Expr() {
 
@@ -27,7 +27,7 @@ class TypeConstructorExpr(var typename: String, argsData: List<Expr>) : Expr() {
   constructor(typename: String, vararg arg: Expr): this(typename, arg.asList())
 
   init {
-    checkNoTopLevelCommaExpression(argsData);
+    checkNoTopLevelCommaExpression(argsData)
   }
 
   fun getArgs(): List<Expr> {
@@ -54,7 +54,7 @@ class TypeConstructorExpr(var typename: String, argsData: List<Expr>) : Expr() {
   fun getNumArgs(): Int = args.size
 
   override fun accept(visitor: IAstVisitor) {
-    visitor.visitTypeConstructorExpr(this);
+    visitor.visitTypeConstructorExpr(this)
   }
 
   override fun clone(): TypeConstructorExpr = TypeConstructorExpr(typename, args.map(Expr::clone))
@@ -72,15 +72,15 @@ class TypeConstructorExpr(var typename: String, argsData: List<Expr>) : Expr() {
   override fun hasChild(candidateChild: IAstNode): Boolean = args.contains(candidateChild)
 
   override fun getChild(index: Int): Expr {
-    if (! (index in 0..<args.size)) {
-      throw IndexOutOfBoundsException("TypeConstructorExpr has no child at index " + index)
+    if (index !in 0..<args.size) {
+      throw IndexOutOfBoundsException("TypeConstructorExpr has no child at index $index")
     }
     return args[index]
   }
 
   override fun setChild(index: Int, expr: Expr) {
-    if (! (index in 0..<args.size)) {
-      throw IndexOutOfBoundsException("TypeConstructorExpr has no child at index " + index)
+    if (index !in 0..<args.size) {
+      throw IndexOutOfBoundsException("TypeConstructorExpr has no child at index $index")
     }
     args[index] = expr
   }

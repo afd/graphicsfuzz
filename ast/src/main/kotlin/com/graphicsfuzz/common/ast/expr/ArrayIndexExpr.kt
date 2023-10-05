@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class ArrayIndexExpr(arrayData: Expr, var index: Expr) : Expr() {
 
@@ -31,14 +31,14 @@ class ArrayIndexExpr(arrayData: Expr, var index: Expr) : Expr() {
     // (v + vec2(0.0))[0]; // fine
     if (array is BinaryExpr) {
       throw IllegalArgumentException("Array index into binary expression "
-          + array.getText() + " not allowed.");
+          + array.getText() + " not allowed.")
     }
   }
 
   fun getArray(): Expr = array
 
   override fun accept(visitor: IAstVisitor) {
-    visitor.visitArrayIndexExpr(this);
+    visitor.visitArrayIndexExpr(this)
   }
 
   override fun clone(): ArrayIndexExpr = ArrayIndexExpr(array.clone(), index.clone())

@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
-public class FloatConstantExpr(val value: String): ConstantExpr() {
+class FloatConstantExpr(val value: String): ConstantExpr() {
 
   override fun accept(visitor: IAstVisitor) {
-    visitor.visitFloatConstantExpr(this);
+    visitor.visitFloatConstantExpr(this)
   }
 
   override fun clone(): FloatConstantExpr = FloatConstantExpr(value)

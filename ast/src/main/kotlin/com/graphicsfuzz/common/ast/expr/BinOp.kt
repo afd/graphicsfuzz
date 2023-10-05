@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
 enum class BinOp : Op {
   COMMA,

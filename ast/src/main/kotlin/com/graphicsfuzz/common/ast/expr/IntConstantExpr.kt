@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class IntConstantExpr(val value: String) : ConstantExpr() {
 
@@ -25,10 +25,10 @@ class IntConstantExpr(val value: String) : ConstantExpr() {
   }
 
   override fun accept(visitor: IAstVisitor) {
-    visitor.visitIntConstantExpr(this);
+    visitor.visitIntConstantExpr(this)
   }
 
-  override fun clone(): IntConstantExpr = IntConstantExpr(value);
+  override fun clone(): IntConstantExpr = IntConstantExpr(value)
 
   fun getNumericValue(): Int {
     if (isOctal()) {

@@ -14,18 +14,17 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
-import java.util.Arrays;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class TernaryExpr(private var test: Expr, private var thenExpr: Expr, private var elseExpr: Expr) : Expr() {
 
   init {
     // The 'test' and 'else' expressions are not allowed to be top-level instances of the comma
     // operator, but the 'then' expression is, e.g. 'a ? b, c : d' is legal.
-    checkNoTopLevelCommaExpression(Arrays.asList(test, elseExpr));
+    checkNoTopLevelCommaExpression(listOf(test, elseExpr))
   }
 
   fun getTest(): Expr = test
@@ -35,7 +34,7 @@ class TernaryExpr(private var test: Expr, private var thenExpr: Expr, private va
   fun getElseExpr(): Expr = elseExpr
 
   override fun accept(visitor: IAstVisitor) {
-    visitor.visitTernaryExpr(this);
+    visitor.visitTernaryExpr(this)
   }
 
   override fun clone(): TernaryExpr = TernaryExpr(test.clone(), thenExpr.clone(), elseExpr.clone())

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
-import java.util.Collections;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
+import java.util.Collections
 
 class FunctionCallExpr(var callee: String, argsData: List<Expr>) : Expr() {
 
@@ -47,7 +47,7 @@ class FunctionCallExpr(var callee: String, argsData: List<Expr>) : Expr() {
   }
 
   override fun accept(visitor: IAstVisitor) {
-    visitor.visitFunctionCallExpr(this);
+    visitor.visitFunctionCallExpr(this)
   }
 
   override fun clone(): FunctionCallExpr = FunctionCallExpr(callee,
@@ -57,14 +57,14 @@ class FunctionCallExpr(var callee: String, argsData: List<Expr>) : Expr() {
 
   override fun getChild(index: Int): Expr {
     if (index < 0 || index >= getNumArgs()) {
-      throw IndexOutOfBoundsException("FunctionCallExpr has no child at index " + index);
+      throw IndexOutOfBoundsException("FunctionCallExpr has no child at index $index")
     }
-    return getArg(index);
+    return getArg(index)
   }
 
   override fun setChild(index: Int, expr: Expr) {
     if (index < 0 || index >= getNumArgs()) {
-      throw IndexOutOfBoundsException("FunctionCallExpr has no child at index " + index);
+      throw IndexOutOfBoundsException("FunctionCallExpr has no child at index $index")
     }
     setArg(index, expr)
   }
