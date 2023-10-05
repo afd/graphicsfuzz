@@ -30,7 +30,7 @@ class ReturnStmt() : Stmt() {
 
   fun getExpr(): Expr {
     require(hasExpr())
-    return expr as Expr
+    return expr!!
   }
 
   fun setExpr(expr: Expr) {
@@ -55,7 +55,7 @@ class ReturnStmt() : Stmt() {
     if (expr === null) {
       return ReturnStmt()
     }
-    return ReturnStmt((expr as Expr).clone())
+    return ReturnStmt(expr!!.clone())
   }
 
 }

@@ -27,6 +27,8 @@ class WhileStmt(condition: Expr, body: Stmt) : LoopStmt(condition, body) {
     visitor.visitWhileStmt(this)
   }
 
-  override fun clone(): WhileStmt = WhileStmt((getCondition() as Expr).clone(), body.clone())
+  override fun getCondition(): Expr = super.getCondition()!!
+
+  override fun clone(): WhileStmt = WhileStmt(getCondition().clone(), body.clone())
 
 }

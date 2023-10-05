@@ -27,6 +27,8 @@ class DoStmt(body: Stmt, condition: Expr) : LoopStmt(condition, body) {
     visitor.visitDoStmt(this)
   }
 
-  override fun clone(): DoStmt = DoStmt(body.clone(), (getCondition() as Expr).clone())
+  override fun getCondition(): Expr = super.getCondition()!!
+
+  override fun clone(): DoStmt = DoStmt(body.clone(), getCondition().clone())
 
 }

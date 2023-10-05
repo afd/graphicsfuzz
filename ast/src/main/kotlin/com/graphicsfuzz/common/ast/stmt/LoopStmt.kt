@@ -29,7 +29,7 @@ abstract class LoopStmt(private var condition: Expr?, var body: Stmt) : Stmt() {
    */
   abstract fun hasCondition(): Boolean
 
-  fun getCondition(): Expr? = condition
+  open fun getCondition(): Expr? = condition
 
   fun setCondition(condition: Expr) {
     this.condition = condition

@@ -14,11 +14,11 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.expr.Expr;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.expr.Expr
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
 class ForStmt(private var init: Stmt, condition: Expr?, private var increment: Expr?, body: Stmt) : LoopStmt(condition, body) {
 
@@ -30,14 +30,14 @@ class ForStmt(private var init: Stmt, condition: Expr?, private var increment: E
    * @return Whether increment is present.
    */
   fun hasIncrement(): Boolean {
-    return increment != null;
+    return increment != null
   }
 
   fun getInit(): Stmt = init
 
   fun getIncrement(): Expr {
-    if (increment is Expr) {
-      return increment as Expr
+    if (increment != null) {
+      return increment!!
     }
     throw UnsupportedOperationException()
   }
@@ -47,8 +47,8 @@ class ForStmt(private var init: Stmt, condition: Expr?, private var increment: E
   }
 
   override fun clone(): ForStmt = ForStmt(init.clone(),
-        if (hasCondition()) (getCondition() as Expr).clone() else null,
-        if (hasIncrement()) (increment as Expr).clone() else null,
+        if (hasCondition()) getCondition()!!.clone() else null,
+        if (hasIncrement()) increment!!.clone() else null,
         body.clone())
 
   override fun replaceChild(child: IAstNode, newChild: IAstNode) {
@@ -57,7 +57,7 @@ class ForStmt(private var init: Stmt, condition: Expr?, private var increment: E
     } else if (child === increment) {
       increment = newChild as Expr
     } else {
-      super.replaceChild(child, newChild);
+      super.replaceChild(child, newChild)
     }
   }
 
