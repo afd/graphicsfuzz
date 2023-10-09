@@ -289,7 +289,7 @@ public final class OpaqueExpressionGenerator {
     assert matrixConstructorArgs.size() == matrixDimension * matrixDimension;
     return Optional.of(
         new FunctionCallExpr("determinant",
-            new FunctionCallExpr(
+            new TypeConstructorExpr(
                 BasicType.makeMatrixType(matrixDimension, matrixDimension).toString(),
                 matrixConstructorArgs)));
   }
