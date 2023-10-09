@@ -14,9 +14,16 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-public abstract class CaseLabel extends Stmt {
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
+
+class ContinueStmt : Stmt() {
+
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitContinueStmt(this)
+  }
+
+  override fun clone(): ContinueStmt = ContinueStmt()
 
 }
-

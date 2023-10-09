@@ -14,19 +14,26 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.IAstNode
+import com.graphicsfuzz.common.ast.expr.Expr
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
-public final class DefaultCaseLabel extends CaseLabel {
+class ExprStmt(var expr: Expr): Stmt() {
 
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitDefaultCaseLabel(this);
+  override fun replaceChild(child: IAstNode, newChild: IAstNode) {
+    require(child === expr)
+    require(newChild is Expr)
+    expr = newChild
   }
 
-  @Override
-  public DefaultCaseLabel clone() {
-    return new DefaultCaseLabel();
+  override fun hasChild(candidateChild: IAstNode): Boolean = candidateChild === expr
+
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitExprStmt(this)
   }
+
+  override fun clone(): ExprStmt = ExprStmt(expr.clone())
+
 }

@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.decl.Declaration
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
-public class DiscardStmt extends Stmt {
+class ExtensionStatement(val extensionName: String, val extensionStatus: String) : Declaration() {
 
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitDiscardStmt(this);
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitExtensionStatement(this)
   }
 
-  @Override
-  public DiscardStmt clone() {
-    return new DiscardStmt();
-  }
-
+  override fun clone(): ExtensionStatement = ExtensionStatement(extensionName, extensionStatus)
 }

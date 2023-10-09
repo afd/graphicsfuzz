@@ -14,20 +14,21 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.expr.Expr
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
-public final class BreakStmt extends Stmt {
+class WhileStmt(condition: Expr, body: Stmt) : LoopStmt(condition, body) {
 
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitBreakStmt(this);
+  override fun hasCondition() = true
+
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitWhileStmt(this)
   }
 
-  @Override
-  public BreakStmt clone() {
-    return new BreakStmt();
-  }
+  override fun getCondition(): Expr = super.getCondition()!!
+
+  override fun clone(): WhileStmt = WhileStmt(getCondition().clone(), body.clone())
 
 }

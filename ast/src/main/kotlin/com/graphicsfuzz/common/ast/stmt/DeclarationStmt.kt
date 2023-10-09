@@ -14,20 +14,17 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.decl.VariablesDeclaration
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
-public class NullStmt extends Stmt {
+class DeclarationStmt(val variablesDeclaration: VariablesDeclaration) : Stmt() {
 
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitNullStmt(this);
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitDeclarationStmt(this)
   }
 
-  @Override
-  public NullStmt clone() {
-    return new NullStmt();
-  }
+  override fun clone(): DeclarationStmt = DeclarationStmt(variablesDeclaration.clone())
 
 }

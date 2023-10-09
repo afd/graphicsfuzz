@@ -14,30 +14,12 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.expr.Expr;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.IAstNode
 
-public class DoStmt extends LoopStmt {
+abstract class Stmt: IAstNode {
 
-  public DoStmt(Stmt body, Expr condition) {
-    super(condition, body);
-  }
-
-  @Override
-  public boolean hasCondition() {
-    return true;
-  }
-
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitDoStmt(this);
-  }
-
-  @Override
-  public DoStmt clone() {
-    return new DoStmt(getBody().clone(), getCondition().clone());
-  }
+  abstract override fun clone(): Stmt
 
 }

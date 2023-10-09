@@ -14,30 +14,16 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.expr.Expr;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
-public class WhileStmt extends LoopStmt {
+class DefaultCaseLabel : CaseLabel() {
 
-  public WhileStmt(Expr condition, Stmt body) {
-    super(condition, body);
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitDefaultCaseLabel(this)
   }
 
-  @Override
-  public boolean hasCondition() {
-    return true;
-  }
-
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitWhileStmt(this);
-  }
-
-  @Override
-  public WhileStmt clone() {
-    return new WhileStmt(getCondition().clone(), getBody().clone());
-  }
+  override fun clone(): DefaultCaseLabel = DefaultCaseLabel()
 
 }

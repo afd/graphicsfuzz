@@ -14,13 +14,16 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.IAstNode;
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
-public abstract class Stmt implements IAstNode {
+class NullStmt : Stmt() {
 
-  @Override
-  public abstract Stmt clone();
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitNullStmt(this)
+  }
+
+  override fun clone(): NullStmt = NullStmt()
 
 }

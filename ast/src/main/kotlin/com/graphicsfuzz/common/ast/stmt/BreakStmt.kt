@@ -14,20 +14,16 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.stmt;
+package com.graphicsfuzz.common.ast.stmt
 
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
-public final class ContinueStmt extends Stmt {
+class BreakStmt : Stmt() {
 
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitContinueStmt(this);
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitBreakStmt(this)
   }
 
-  @Override
-  public ContinueStmt clone() {
-    return new ContinueStmt();
-  }
+  override fun clone(): BreakStmt = BreakStmt()
 
 }
