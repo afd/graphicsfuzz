@@ -44,7 +44,6 @@ limitations under the License.
           </sourceDirectories>
           <includeTestSourceDirectory>true</includeTestSourceDirectory>
           <configLocation>graphicsfuzz/checkstyle.xml</configLocation>
-          <encoding>UTF-8</encoding>
           <consoleOutput>true</consoleOutput>
           <failsOnError>false</failsOnError>
           <failOnViolation>true</failOnViolation>

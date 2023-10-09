@@ -134,7 +134,8 @@ public class EliminateGraphicsFuzzDefines extends StandardVisitor {
     final Expr sizeMinusOne = new BinaryExpr(functionCallExpr.getChild(1),
         one,
         BinOp.SUB);
-    final Expr clamp = new FunctionCallExpr("clamp", functionCallExpr.getChild(0),
+    final Expr clamp = new FunctionCallExpr("clamp",
+        functionCallExpr.getChild(0),
         zero,
         sizeMinusOne);
     parent.replaceChild(functionCallExpr,

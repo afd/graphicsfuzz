@@ -31,10 +31,10 @@ public class BoolConstantExprTest {
     final BoolConstantExpr falseExpr = new BoolConstantExpr(false);
     assertNotSame(trueExpr, trueExpr.clone());
     assertNotSame(falseExpr, falseExpr.clone());
-    assertEquals(trueExpr.getIsTrue(), trueExpr.clone().getIsTrue());
-    assertEquals(falseExpr.getIsTrue(), falseExpr.clone().getIsTrue());
-    assertTrue(trueExpr.getIsTrue());
-    assertFalse(falseExpr.getIsTrue());
+    assertEquals(trueExpr.isTrue(), trueExpr.clone().isTrue());
+    assertEquals(falseExpr.isTrue(), falseExpr.clone().isTrue());
+    assertTrue(trueExpr.isTrue());
+    assertFalse(falseExpr.isTrue());
   }
 
 }

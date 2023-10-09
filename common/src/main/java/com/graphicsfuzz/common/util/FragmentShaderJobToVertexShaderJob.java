@@ -223,11 +223,12 @@ public final class FragmentShaderJobToVertexShaderJob {
                       new ParenExpr(
                           new BinaryExpr(
                               new VariableIdentifierExpr(Constants.GLF_POS),
-                              new TypeConstructorExpr(BasicType.VEC4.toString(),
-                                  new FloatConstantExpr("1.0"),
-                                  new FloatConstantExpr("1.0"),
-                                  new FloatConstantExpr("0.0"),
-                                  new FloatConstantExpr("0.0")),
+                              new TypeConstructorExpr(
+                                  BasicType.VEC4.toString(),
+                                      new FloatConstantExpr("1.0"),
+                                      new FloatConstantExpr("1.0"),
+                                      new FloatConstantExpr("0.0"),
+                                      new FloatConstantExpr("0.0")),
                               BinOp.ADD)),
                       new TypeConstructorExpr(BasicType.VEC4.toString(),
                           new FloatConstantExpr("128.0"),

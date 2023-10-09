@@ -14,12 +14,22 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-public interface Op {
+import com.graphicsfuzz.common.ast.IAstNode
 
-  boolean isSideEffecting();
+abstract class ConstantExpr: Expr() {
 
-  String getText();
+  override fun hasChild(candidateChild: IAstNode): Boolean = false
+
+  override fun getChild(index: Int): Expr {
+    throw IndexOutOfBoundsException("ConstExpr has no children")
+  }
+
+  override fun setChild(index: Int, expr: Expr) {
+    throw IndexOutOfBoundsException("ConstExpr has no children")
+  }
+
+  override fun getNumChildren(): Int = 0
 
 }

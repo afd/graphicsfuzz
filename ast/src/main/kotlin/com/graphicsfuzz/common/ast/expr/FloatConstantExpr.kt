@@ -14,23 +14,16 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-public abstract class ConstantExpr extends Expr {
+import com.graphicsfuzz.common.ast.visitors.IAstVisitor
 
-  @Override
-  public final Expr getChild(int index) {
-    throw new IndexOutOfBoundsException("ConstExpr has no children");
+class FloatConstantExpr(val value: String): ConstantExpr() {
+
+  override fun accept(visitor: IAstVisitor) {
+    visitor.visitFloatConstantExpr(this)
   }
 
-  @Override
-  public final void setChild(int index, Expr expr) {
-    throw new IndexOutOfBoundsException("ConstExpr has no children");
-  }
-
-  @Override
-  public final int getNumChildren() {
-    return 0;
-  }
+  override fun clone(): FloatConstantExpr = FloatConstantExpr(value)
 
 }

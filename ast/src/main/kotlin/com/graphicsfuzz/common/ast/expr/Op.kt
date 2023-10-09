@@ -14,36 +14,12 @@
  * limitations under the License.
  */
 
-package com.graphicsfuzz.common.ast.expr;
+package com.graphicsfuzz.common.ast.expr
 
-import com.graphicsfuzz.common.ast.IAstNode;
-import com.graphicsfuzz.common.ast.visitors.IAstVisitor;
+interface Op {
 
-public class FloatConstantExpr extends ConstantExpr {
+  fun isSideEffecting(): Boolean
 
-  private String value;
-
-  public FloatConstantExpr(String text) {
-    this.value = text;
-  }
-
-  @Override
-  public boolean hasChild(IAstNode child) {
-    return false;
-  }
-
-  public String getValue() {
-    return value;
-  }
-
-  @Override
-  public void accept(IAstVisitor visitor) {
-    visitor.visitFloatConstantExpr(this);
-  }
-
-  @Override
-  public FloatConstantExpr clone() {
-    return new FloatConstantExpr(value);
-  }
+  fun getText(): String
 
 }

@@ -39,7 +39,7 @@ public class VariableIdentifierExprTest {
   @Test(expected = IndexOutOfBoundsException.class)
   public void setChild() throws Exception {
     VariableIdentifierExpr x = new VariableIdentifierExpr("x");
-    x.setChild(0, null);
+    x.setChild(0, new BoolConstantExpr(true));
   }
 
   @Test

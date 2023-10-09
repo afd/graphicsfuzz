@@ -76,7 +76,8 @@ public class MakeArrayAccessesInBounds extends ScopeTrackingVisitor {
           : new UIntConstantExpr(getSize(type).toString() + "u");
 
       final Expr clampedIndexExpr =
-          new FunctionCallExpr(indexType == BasicType.INT ? Constants.GLF_MAKE_IN_BOUNDS_INT :
+          new FunctionCallExpr(
+              indexType == BasicType.INT ? Constants.GLF_MAKE_IN_BOUNDS_INT :
               Constants.GLF_MAKE_IN_BOUNDS_UINT,
               arrayIndexExpr.getIndex(),
               arraySize);

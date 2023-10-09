@@ -170,7 +170,8 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(new FunctionCallExpr("sqrt", makeOpaqueZeroOrOne(isZero, type, constContext,
+    return Optional.of(new FunctionCallExpr("sqrt",
+        makeOpaqueZeroOrOne(isZero, type, constContext,
         depth, fuzzer)));
   }
 
@@ -180,7 +181,8 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(new FunctionCallExpr("abs", makeOpaqueZeroOrOne(isZero, type, constContext,
+    return Optional.of(new FunctionCallExpr("abs",
+        makeOpaqueZeroOrOne(isZero, type, constContext,
         depth, fuzzer)));
   }
 
@@ -532,7 +534,8 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(new FunctionCallExpr("sin", makeOpaqueZero(type, constContext, depth,
+    return Optional.of(new FunctionCallExpr("sin",
+        makeOpaqueZero(type, constContext, depth,
         fuzzer)));
   }
 
@@ -543,8 +546,8 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(new FunctionCallExpr("log", makeOpaqueOne(type, constContext, depth,
-        fuzzer)));
+    return Optional.of(new FunctionCallExpr("log",
+        makeOpaqueOne(type, constContext, depth, fuzzer)));
   }
 
   private Optional<Expr> opaqueZeroTan(BasicType type, boolean constContext, final int depth,
@@ -554,7 +557,8 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(new FunctionCallExpr("tan", makeOpaqueZero(type, constContext, depth,
+    return Optional.of(new FunctionCallExpr("tan",
+        makeOpaqueZero(type, constContext, depth,
         fuzzer)));
   }
 
@@ -572,7 +576,8 @@ public final class OpaqueExpressionGenerator {
     final BasicType vectorType =
         BasicType.allGenTypes().get(generator.nextInt(BasicType.allGenTypes().size()));
 
-    return Optional.of(new FunctionCallExpr("length", makeOpaqueZero(vectorType, constContext,
+    return Optional.of(new FunctionCallExpr("length",
+        makeOpaqueZero(vectorType, constContext,
         depth,
         fuzzer)));
   }
@@ -633,7 +638,8 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(new FunctionCallExpr("exp", makeOpaqueZero(type, constContext, depth,
+    return Optional.of(new FunctionCallExpr("exp",
+        makeOpaqueZero(type, constContext, depth,
         fuzzer)));
   }
 
@@ -644,7 +650,8 @@ public final class OpaqueExpressionGenerator {
     if (!BasicType.allGenTypes().contains(type)) {
       return Optional.empty();
     }
-    return Optional.of(new FunctionCallExpr("cos", makeOpaqueZero(type, constContext, depth,
+    return Optional.of(new FunctionCallExpr("cos",
+        makeOpaqueZero(type, constContext, depth,
         fuzzer)));
   }
 
@@ -778,7 +785,8 @@ public final class OpaqueExpressionGenerator {
                                         final int depth, Fuzzer fuzzer) {
     assert BasicType.allSquareMatrixTypes().contains(type);
     if (isTooDeep(depth)) {
-      return new TypeConstructorExpr(type.toString(), makeRegularOne(BasicType.FLOAT));
+      return new TypeConstructorExpr(type.toString(),
+          makeRegularOne(BasicType.FLOAT));
     }
     final int newDepth = depth + 1;
     while (true) {

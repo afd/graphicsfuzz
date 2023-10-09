@@ -204,7 +204,8 @@ public class AddSwitchMutation implements Mutation {
                     shadingLanguageVersion,
                     random, generationParams));
 
-    block.setStmts(Collections.singletonList(new SwitchStmt(new FunctionCallExpr(
+    block.setStmts(Collections.singletonList(
+        new SwitchStmt(new FunctionCallExpr(
         Constants.GLF_SWITCH, zero),
         new BlockStmt(switchBodyStmts, true))));
   }
